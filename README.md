@@ -13,7 +13,8 @@ Todo se cambia en `js/perfumes.js`:
 - `TIENDA`: nombre, WhatsApp y correo.
 - `PROPOSITOS`: los momentos que se muestran al entrar.
 - `ACORDES`: colores de la escala de acordes.
-- `PERFUMES`: un perfume por línea con `P(nombre, inspiración, género, categoría, familia, propósitos, notas, acordes, destacado)`.
+- `PERFUMES`: un perfume por línea con `P(código, nombre, inspiración, género, categoría, familia, propósitos, notas, acordes, destacado)`.
+  El código (F-001, F-002…) es el código interno de estantería: es fijo y los perfumes nuevos toman el siguiente número libre.
 
 Para poner fotos reales, guárdalas en `img/` y asígnalas al final de `js/perfumes.js`.
 

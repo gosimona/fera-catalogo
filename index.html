@@ -82,7 +82,7 @@
       <div class="toolbar">
         <label class="search">
           <svg class="ico"><use href="#i-search"/></svg>
-          <input type="search" id="q" placeholder="Buscar por nombre o inspiración" autocomplete="off">
+          <input type="search" id="q" placeholder="Buscar por nombre, inspiración o código" autocomplete="off">
         </label>
         <div class="filters" id="filters"></div>
         <label class="sort">
@@ -92,6 +92,7 @@
             <option value="az">Nombre A–Z</option>
             <option value="za">Nombre Z–A</option>
             <option value="insp">Inspiración A–Z</option>
+            <option value="codigo">Código (F-001…)</option>
           </select>
         </label>
       </div>
@@ -159,7 +160,7 @@
       <button class="x modal-x" data-close aria-label="Cerrar"><svg class="ico"><use href="#i-x"/></svg></button>
       <div class="modal-img" id="m-img"></div>
       <div class="modal-body">
-        <p class="eyebrow">Perfume de autor</p>
+        <p class="eyebrow m-eyebrow">Perfume de autor <span class="code code-lg" id="m-code"></span></p>
         <h3 class="m-name" id="m-name"></h3>
         <p class="m-insp" id="m-insp"></p>
         <div class="chips" id="m-chips"></div>

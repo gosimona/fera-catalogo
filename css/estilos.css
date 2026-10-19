@@ -206,6 +206,15 @@ em { font-style: italic; color: var(--gold-light); }
 }
 .card:hover .see { translate: -50% 0; opacity: 1; }
 .card-body { display: flex; flex-direction: column; flex: 1; padding: 16px; }
+/* Código interno de estantería */
+.code {
+  display: inline-block; font-family: var(--sans); font-style: normal; font-size: 10.5px; font-weight: 600;
+  letter-spacing: .12em; padding: 2px 7px; border-radius: 5px; white-space: nowrap;
+  color: var(--gold-light); border: 1px solid rgba(216, 188, 138, .45); background: rgba(216, 188, 138, .1);
+}
+.code-lg { font-size: 12px; padding: 3px 9px; margin-left: 10px; vertical-align: 1px; }
+.card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.drawer-list .code { margin-bottom: 4px; }
 .fam { min-height: 14px; font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(216, 188, 138, .7); }
 .card-name { margin-top: 4px; font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 20px; line-height: 1.2; text-transform: uppercase; }
 .card-name button { text-align: left; }

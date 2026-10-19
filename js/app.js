@@ -264,10 +264,11 @@
         (!categoria.size || categoria.has(p.categoria)) &&
         (!familia.size || familia.has(p.familia)) &&
         (!inspiracion.size || inspiracion.has(p.inspiracion)) &&
-        (!estado.q || norm(`${p.nombre} ${p.inspiracion} ${p.familia}`).includes(estado.q))
+        (!estado.q || norm(`${p.codigo} ${p.codigo.replace("-", "")} ${p.nombre} ${p.inspiracion} ${p.familia}`).includes(estado.q))
     );
     const cmp = {
       destacados: (a, b) => (b.destacado ? 1 : 0) - (a.destacado ? 1 : 0) || a.orden - b.orden,
+      codigo: (a, b) => a.codigo.localeCompare(b.codigo),
       az: (a, b) => a.nombre.localeCompare(b.nombre, "es"),
       za: (a, b) => b.nombre.localeCompare(a.nombre, "es"),
       insp: (a, b) => a.inspiracion.localeCompare(b.inspiracion, "es"),
@@ -288,7 +289,7 @@
         <svg class="ico"><use href="#i-${enSel ? "check" : "plus"}"/></svg>
       </button>
       <div class="card-body">
-        <p class="fam">${esc(p.familia)}</p>
+        <div class="card-top"><p class="fam">${esc(p.familia)}</p><span class="code">${esc(p.codigo)}</span></div>
         <h3 class="card-name"><button data-ver="${p.id}">${esc(p.nombre)}</button></h3>
         <p class="insp">Inspirado en ${esc(p.inspiracion.toUpperCase())}</p>
         <div class="card-props" title="${esc(p.propositos.map((x) => propById[x].nombre).join(" · "))}">
@@ -356,11 +357,11 @@
     pintar();
   }
   const mensajePerfume = (p, ml) =>
-    `${saludo}Quiero el precio de este perfume:\n\n*${p.nombre}* (inspirado en ${p.inspiracion})${ml ? ` - ${ml}` : ""}\n\n¿Me ayudan?`;
+    `${saludo}Quiero el precio de este perfume:\n\n*${p.codigo} · ${p.nombre}* (inspirado en ${p.inspiracion})${ml ? ` - ${ml}` : ""}\n\n¿Me ayudan?`;
   const mensajeSeleccion = () =>
     saludo +
     "Quiero cotizar estos perfumes:\n\n" +
-    [...seleccion].map(([id, ml], i) => `${i + 1}. *${perfumeById[id].nombre}* (inspirado en ${perfumeById[id].inspiracion}) - ${ml}`).join("\n") +
+    [...seleccion].map(([id, ml], i) => `${i + 1}. *${perfumeById[id].codigo} · ${perfumeById[id].nombre}* (inspirado en ${perfumeById[id].inspiracion}) - ${ml}`).join("\n") +
     "\n\n*OBSERVACIONES*\n-";
 
   function pintarSeleccion() {
@@ -375,7 +376,7 @@
             const p = perfumeById[id];
             return `<li>
               <div class="thumb">${arte(p)}</div>
-              <div><h5>${esc(p.nombre)}</h5><p>Inspirado en ${esc(p.inspiracion)}</p>
+              <div><span class="code">${esc(p.codigo)}</span><h5>${esc(p.nombre)}</h5><p>Inspirado en ${esc(p.inspiracion)}</p>
                 <select data-ml="${id}" aria-label="Presentación">${p.presentaciones.map((x) => `<option ${x === ml ? "selected" : ""}>${x}</option>`).join("")}</select>
               </div>
               <button class="rm" data-rm="${id}" aria-label="Quitar"><svg class="ico"><use href="#i-trash"/></svg></button>
@@ -430,6 +431,7 @@
     $("#m-img").innerHTML = arte(p);
     $("#m-img svg")?.setAttribute("preserveAspectRatio", "xMidYMid meet");
     $("#m-name").textContent = p.nombre;
+    $("#m-code").textContent = p.codigo;
     $("#m-insp").innerHTML = `Inspirado en <b>${esc(p.inspiracion.toUpperCase())}</b>`;
     $("#m-chips").innerHTML = [p.genero, p.categoria, p.familia, p.destacado ? "Favorito" : ""].filter(Boolean).map((c) => `<span class="chip">${esc(c)}</span>`).join("");
     $("#m-props").innerHTML = p.propositos
