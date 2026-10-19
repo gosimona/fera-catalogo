@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FERA · Catálogo de perfumes</title>
+  <meta name="description" content="FERA Perfumería fina: elige tu perfume según el momento — uso diario, seducción, eventos, deporte o para regalar.">
+  <meta name="theme-color" content="#0A0A0B">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&display=swap" rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@200,300,400,500,600,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+  <!-- Barra superior -->
+  <header class="topbar" id="topbar">
+    <a href="#inicio" class="logo">
+      <span class="logo-sub" data-tienda="subtitulo"></span>
+      <span class="logo-name" data-tienda="nombre"></span>
+    </a>
+    <nav class="topnav">
+      <a href="#propositos">Propósitos</a>
+      <a href="#catalogo">Catálogo</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <a class="btn-outline btn-sm" data-wa="general" target="_blank" rel="noopener">
+      <svg class="ico"><use href="#i-wa"/></svg><span>Hablar con un asesor</span>
+    </a>
+  </header>
+
+  <!-- Portada -->
+  <section class="hero" id="inicio">
+    <div class="hero-bg"></div>
+    <button class="hero-visual" id="hero-visual" aria-label="Ver perfume destacado"></button>
+    <div class="wrap hero-inner">
+      <p class="eyebrow" id="hero-eyebrow"></p>
+      <h1 class="hero-title">El perfume que<br>habla por ti</h1>
+      <p class="hero-text">Fragancias de autor inspiradas en los perfumes más deseados del mundo. Alta concentración, fijación prolongada y asesoría para encontrar el aroma perfecto para cada momento.</p>
+      <div class="hero-actions">
+        <a href="#propositos" class="btn-gold">Elegir por propósito <svg class="ico"><use href="#i-arrow"/></svg></a>
+        <a class="btn-outline" data-wa="asesoria" target="_blank" rel="noopener"><svg class="ico"><use href="#i-wa"/></svg>Pedir asesoría</a>
+      </div>
+      <div class="stats">
+        <div><span class="stat-n" id="stat-total">0</span><span class="stat-l">Perfumes</span></div>
+        <div><span class="stat-n" id="stat-prop">0</span><span class="stat-l">Propósitos</span></div>
+        <div><span class="stat-n">100 ml</span><span class="stat-l">Hasta</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Propósitos -->
+  <section class="section" id="propositos">
+    <div class="wrap">
+      <p class="eyebrow">Elige tu momento</p>
+      <h2 class="section-title">¿Para qué momento buscas <em>tu perfume?</em></h2>
+      <p class="section-text">Cuéntanos la ocasión y te mostramos las fragancias pensadas para ella.</p>
+      <div class="prop-grid" id="prop-grid"></div>
+    </div>
+  </section>
+
+  <!-- Beneficios -->
+  <section class="benefits">
+    <div class="benefit"><svg class="ico-lg"><use href="#i-shield"/></svg><h4>Calidad garantizada</h4><p>Alta concentración y fijación prolongada en cada frasco.</p></div>
+    <div class="benefit"><svg class="ico-lg"><use href="#i-drop"/></svg><h4>30, 50 y 100 ml</h4><p>Elige el tamaño que más se ajuste a ti.</p></div>
+    <div class="benefit"><svg class="ico-lg"><use href="#i-truck"/></svg><h4>Envíos a todo el país</h4><p>Despachamos a toda Colombia con embalaje seguro.</p></div>
+    <div class="benefit"><svg class="ico-lg"><use href="#i-head"/></svg><h4>Asesoría real</h4><p>Te ayudamos a encontrar tu fragancia ideal.</p></div>
+  </section>
+
+  <!-- Catálogo -->
+  <section class="catalog" id="catalogo">
+    <div class="wrap">
+      <div class="catalog-head">
+        <p class="eyebrow">Catálogo de perfumes</p>
+        <h2 class="section-title" id="catalog-title">Todas las fragancias</h2>
+        <p class="section-text" id="catalog-desc">Explora nuestro catálogo completo o filtra por el momento que quieres vivir.</p>
+      </div>
+
+      <div class="pills" id="pills"></div>
+
+      <div class="toolbar">
+        <label class="search">
+          <svg class="ico"><use href="#i-search"/></svg>
+          <input type="search" id="q" placeholder="Buscar por nombre o inspiración" autocomplete="off">
+        </label>
+        <div class="filters" id="filters"></div>
+        <label class="sort">
+          <svg class="ico"><use href="#i-sort"/></svg>
+          <select id="sort">
+            <option value="destacados">Destacados</option>
+            <option value="az">Nombre A–Z</option>
+            <option value="za">Nombre Z–A</option>
+            <option value="insp">Inspiración A–Z</option>
+          </select>
+        </label>
+      </div>
+      <div class="count-row">
+        <p class="count"><span id="count-n">0</span> de <span id="count-t">0</span> perfumes</p>
+        <button class="clear" id="clear" hidden>Limpiar filtros</button>
+      </div>
+
+      <div class="grid" id="grid"></div>
+      <p class="empty" id="empty" hidden>No encontramos perfumes con esos filtros. <button class="link" id="clear2">Limpiar filtros</button></p>
+
+      <div class="more" id="more-wrap">
+        <p class="more-l" id="more-l"></p>
+        <button class="btn-outline" id="more">Ver más perfumes</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cierre -->
+  <section class="cta" id="contacto">
+    <div class="wrap cta-inner">
+      <p class="eyebrow">Tu aroma empieza aquí</p>
+      <h2 class="section-title">¿Listo para encontrar <em>tu fragancia?</em></h2>
+      <p class="section-text">Arma tu selección, envíanosla por WhatsApp y te respondemos con precios, presentaciones y tiempos de entrega.</p>
+      <div class="hero-actions center">
+        <a class="btn-gold" data-wa="general" target="_blank" rel="noopener"><svg class="ico"><use href="#i-wa"/></svg>Cotizar por WhatsApp</a>
+        <a href="#propositos" class="btn-outline">Elegir por propósito</a>
+      </div>
+      <p class="contact-line" id="contact-line"></p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>Nuestras fragancias son creaciones propias inspiradas en perfumes reconocidos. No son réplicas ni copias, ni guardan relación con las marcas mencionadas, cuyos nombres se usan solo como referencia olfativa.</p>
+    <p class="copy">© <span id="year"></span> <span data-tienda="nombre"></span></p>
+  </footer>
+
+  <!-- Barra flotante Mi selección -->
+  <div class="selbar" id="selbar" hidden>
+    <button class="selbar-info" id="sel-open">
+      <span class="selbar-n" id="sel-n">0</span>
+      <span><strong>Mi selección</strong><small id="sel-l"></small></span>
+    </button>
+    <a class="btn-gold btn-sm" id="sel-wa" target="_blank" rel="noopener">Solicitar cotización</a>
+  </div>
+
+  <!-- Panel de selección -->
+  <div class="drawer-back" id="drawer-back" hidden></div>
+  <aside class="drawer" id="drawer" aria-hidden="true">
+    <div class="drawer-head">
+      <div><p class="eyebrow">Mi selección</p><h3 class="drawer-title">Perfumes para cotizar</h3></div>
+      <button class="x" id="drawer-x" aria-label="Cerrar"><svg class="ico"><use href="#i-x"/></svg></button>
+    </div>
+    <ul class="drawer-list" id="drawer-list"></ul>
+    <div class="drawer-foot">
+      <a class="btn-gold full" id="drawer-wa" target="_blank" rel="noopener"><svg class="ico"><use href="#i-wa"/></svg>Solicitar cotización</a>
+      <button class="link" id="drawer-clear">Vaciar selección</button>
+    </div>
+  </aside>
+
+  <!-- Ventana de detalle -->
+  <div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="m-name">
+    <div class="modal-back" data-close></div>
+    <div class="modal-box">
+      <button class="x modal-x" data-close aria-label="Cerrar"><svg class="ico"><use href="#i-x"/></svg></button>
+      <div class="modal-img" id="m-img"></div>
+      <div class="modal-body">
+        <p class="eyebrow">Perfume de autor</p>
+        <h3 class="m-name" id="m-name"></h3>
+        <p class="m-insp" id="m-insp"></p>
+        <div class="chips" id="m-chips"></div>
+
+        <p class="label">Ideal para</p>
+        <div class="m-props" id="m-props"></div>
+
+        <p class="label">Escala de acordes</p>
+        <div id="m-scale"></div>
+
+        <p class="label">Pirámide olfativa</p>
+        <dl class="notes" id="m-notes"></dl>
+
+        <p class="label">Presentaciones disponibles</p>
+        <div class="sizes" id="m-sizes"></div>
+        <p class="hint">Escríbenos y un asesor te confirma precio y disponibilidad.</p>
+
+        <ul class="m-benefits">
+          <li><svg class="ico"><use href="#i-drop"/></svg>Alta concentración y fijación prolongada</li>
+          <li><svg class="ico"><use href="#i-shield"/></svg>Calidad constante en cada frasco</li>
+          <li><svg class="ico"><use href="#i-truck"/></svg>Envíos a todo el país</li>
+        </ul>
+
+        <div class="m-actions">
+          <a class="btn-gold" id="m-wa" target="_blank" rel="noopener"><svg class="ico"><use href="#i-wa"/></svg>Pedir precio</a>
+          <button class="btn-outline" id="m-add"><svg class="ico"><use href="#i-plus"/></svg><span>Agregar</span></button>
+        </div>
+        <p class="m-legal">Fragancia propia inspirada en un perfume reconocido; el nombre de la marca se usa solo como referencia olfativa.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Íconos -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-wa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"/><path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"/></symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+      <symbol id="i-sort" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h10M4 12h7M4 18h4M17 4v16M14 17l3 3 3-3"/></symbol>
+      <symbol id="i-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5v14"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+      <symbol id="i-drop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.7s6 6.3 6 11.3a6 6 0 0 1-12 0c0-5 6-11.3 6-11.3z"/></symbol>
+      <symbol id="i-truck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h15v13H1zM16 8h4l3 3v5h-7"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></symbol>
+      <symbol id="i-head" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1v-6h3zM3 19a2 2 0 0 0 2 2h1v-6H3z"/></symbol>
+      <!-- íconos de propósitos -->
+      <symbol id="p-diario" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+      <symbol id="p-seduccion" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21.2l8.8-8.8a5.5 5.5 0 0 0 0-7.8z"/></symbol>
+      <symbol id="p-eventos" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 22h8M12 15v7M6 2h12l-1 7a5 5 0 0 1-10 0z"/><path d="M6.5 6h11"/></symbol>
+      <symbol id="p-deporte" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12c3-3 6-3 10 0s7 3 10 0M2 17c3-3 6-3 10 0s7 3 10 0M2 7c3-3 6-3 10 0s7 3 10 0"/></symbol>
+      <symbol id="p-regalo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></symbol>
+      <symbol id="p-todo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+    </defs>
+  </svg>
+
+  <script src="js/perfumes.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
