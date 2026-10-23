@@ -47,6 +47,11 @@
   const antesKit = (k) => k.espacios.reduce((t, e) => t + precioDe(e.tamano), 0);
   const precioKit = (k) => (promoVigente() ? k.precio : antesKit(k));
   const ahorroKit = (k) => antesKit(k) - precioKit(k);
+  const pctKit = (k) => Math.round((ahorroKit(k) / antesKit(k)) * 100);
+  const KITS_VITRINA = KITS.filter((k) => k.vitrina !== false);
+  const HUELLA = KITS.find((k) => k.mismoAroma);
+  // Si todos los frascos del kit son del mismo tamaño, cuánto sale cada uno
+  const tamanoUnico = (k) => (k.espacios.every((e) => e.tamano === k.espacios[0].tamano) ? k.espacios[0].tamano : null);
   const cabeEn = (p, e) =>
     (!e.propositos || !e.propositos.length || e.propositos.some((x) => p.propositos.includes(x))) &&
     (!e.generos || !e.generos.length || e.generos.includes(p.genero)) &&
@@ -202,7 +207,8 @@
     const items = k.espacios
       .map((e, i) => {
         const prop = e.propositos?.[0] && propById[e.propositos[0]];
-        const col = prop ? prop.color : e.generos?.[0] === "Mujer" ? "#FF2E93" : "#1E88FF";
+        const paleta = ["#1E88FF", "#FF2E93", "#E8A317", "#17B890", "#9B51E0", "#FF5A36"];
+        const col = prop ? prop.color : k.mismoAroma ? "#E8A317" : paleta[i % paleta.length];
         const h = 40 + mlNum(e.tamano) * 0.75;
         const x = 20 + i * (ancho + 18);
         const y = 140 - h;
@@ -293,26 +299,65 @@
   // ---------- Tarjetas de kits ----------
   function pintarKits() {
     const vig = promoVigente();
-    $("#kit-grid").innerHTML = KITS.map((k) => {
+    const items = (k) =>
+      k.espacios.every((e) => /^Aroma \d/.test(e.titulo))
+        ? `<li><span>${k.espacios.length} × ${k.espacios[0].tamano}</span>A elegir del catálogo</li>`
+        : k.espacios.map((e) => `<li><span>${e.tamano}</span>${esc(e.titulo)}</li>`).join("");
+    // Precio por frasco: la barra se encoge a medida que sube el kit
+    const porFrasco = (k) => {
+      const t = tamanoUnico(k);
+      if (!t || !vig) return "";
+      const unidad = precioKit(k) / k.espacios.length;
+      return `<div class="kit-unit">
+        <p><span>Cada frasco de ${t}</span><b>${plata(unidad)}</b><s>${plata(precioDe(t))}</s></p>
+        <div class="kit-unit-bar"><i style="width:${Math.round((unidad / precioDe(t)) * 100)}%"></i></div>
+      </div>`;
+    };
+    $("#kit-grid").innerHTML = KITS_VITRINA.map((k, i) => {
       const cupos = PROMO.cupos?.[k.id];
-      return `<article class="kit">
-        <span class="kit-tag">${esc(k.etiqueta || "")}</span>
+      return `<article class="kit ${k.destacado ? "featured" : ""}" style="--step:${i}">
+        <div class="kit-top">
+          <span class="kit-tag">${esc(k.etiqueta || "")}</span>
+          ${vig ? `<span class="kit-pct">-${pctKit(k)}%</span>` : ""}
+        </div>
         <div class="kit-visual">${frascosKit(k)}</div>
         <h3 class="kit-name">${esc(k.nombre)}</h3>
         <p class="kit-frase">${esc(k.frase)}</p>
         <p class="kit-desc">${esc(k.descripcion)}</p>
-        <ul class="kit-items">${k.espacios.map((e) => `<li><span>${e.tamano}</span>${esc(e.titulo)}</li>`).join("")}</ul>
+        <ul class="kit-items">${items(k)}</ul>
+        ${porFrasco(k)}
         <div class="kit-price">
           ${vig ? `<s>${plata(antesKit(k))}</s>` : ""}
           <strong>${plata(precioKit(k))}</strong>
           ${vig ? `<span class="kit-save">Ahorras ${plata(ahorroKit(k))}</span>` : ""}
         </div>
-        ${vig ? `<p class="kit-timer"><svg class="ico"><use href="#i-clock"/></svg>Precio especial termina en <b data-count="corto"></b></p>` : ""}
+        ${vig ? `<p class="kit-timer"><svg class="ico"><use href="#i-clock"/></svg>Termina en <b data-count="corto"></b></p>` : ""}
         ${vig && cupos ? `<p class="kit-cupos">Quedan ${cupos} kits a este precio</p>` : ""}
         <button class="btn-gold full" data-kit="${k.id}">Armar mi kit <svg class="ico"><use href="#i-arrow"/></svg></button>
       </article>`;
     }).join("");
+
+    // Huella Fera (60 ml + 30 ml del mismo aroma), fuera de la escalera
+    $("#kit-extra").hidden = !HUELLA;
+    if (HUELLA)
+      $("#kit-extra").innerHTML = `
+        <div class="kit-extra-art">${frascosKit(HUELLA)}</div>
+        <div class="kit-extra-body">
+          <p class="eyebrow">¿Ya tienes tu favorito?</p>
+          <h3 class="kit-name">${esc(HUELLA.nombre)}</h3>
+          <p class="kit-frase">${esc(HUELLA.frase)}</p>
+          <p class="kit-desc">${esc(HUELLA.descripcion)}</p>
+        </div>
+        <div class="kit-extra-buy">
+          <div class="kit-price">
+            ${vig ? `<s>${plata(antesKit(HUELLA))}</s>` : ""}
+            <strong>${plata(precioKit(HUELLA))}</strong>
+            ${vig ? `<span class="kit-save">Ahorras ${plata(ahorroKit(HUELLA))}</span>` : ""}
+          </div>
+          <button class="btn-gold" data-kit="${HUELLA.id}">Elegir mi aroma <svg class="ico"><use href="#i-arrow"/></svg></button>
+        </div>`;
     const max = Math.max(...KITS.map(ahorroKit));
+    $("#kits-max-pct").textContent = `${Math.max(...KITS_VITRINA.map(pctKit))} %`;
     $("#promo-max").textContent = $("#price-max").textContent = plata(max);
     $("#promo-bar").hidden = !vig;
     document.body.classList.toggle("has-promo", vig);
@@ -320,10 +365,12 @@
     $("#promo-title").textContent = PROMO.titulo;
     if (vig) $("#kits-countdown-l").textContent = `${PROMO.titulo} hasta el ${fechaFin()}`;
   }
-  $("#kit-grid").addEventListener("click", (e) => {
-    const b = e.target.closest("[data-kit]");
-    if (b) abrirKit(b.dataset.kit);
-  });
+  $$("#kit-grid, #kit-extra").forEach((el) =>
+    el.addEventListener("click", (e) => {
+      const b = e.target.closest("[data-kit]");
+      if (b) abrirKit(b.dataset.kit);
+    })
+  );
 
   // Cuenta regresiva (se actualiza cada segundo)
   let vigenteAntes = promoVigente();
@@ -544,7 +591,8 @@
   // Sugerencia para subir el ticket dentro del pedido
   function sugerencia() {
     if (promoVigente()) {
-      const opciones = KITS.map((k) => ({ k, items: encajar(k) }))
+      const opciones = KITS.filter((k) => !k.mismoAroma)
+        .map((k) => ({ k, items: encajar(k) }))
         .map((o) => ({ ...o, n: o.items.filter(Boolean).length, faltan: o.items.filter((x) => !x).length }))
         .filter((o) => o.n > 0 && o.faltan <= 1)
         .sort((a, b) => a.faltan - b.faltan || ahorroKit(b.k) - ahorroKit(a.k));
@@ -553,6 +601,17 @@
         return { texto: `¡Ya tienes lo necesario para el kit <b>${esc(o.k.nombre)}</b>! Conviértelo y ahorra <b>${plata(ahorroKit(o.k))}</b>.`, boton: "Convertir en kit", accion: () => convertirEnKit(o.k, o.items) };
       if (o)
         return { texto: `Te falta <b>1 perfume</b> para el kit <b>${esc(o.k.nombre)}</b> y ahorrar <b>${plata(ahorroKit(o.k))}</b>.`, boton: "Completar kit", accion: () => { abrirPanel(false); abrirKit(o.k.id, o.items, true); } };
+      // Un perfume de 60 ml suelto: ofrecer el mismo aroma en 30 ml como Huella Fera
+      const sesenta = HUELLA && [...seleccion].find(([, ml]) => ml === HUELLA.espacios[0].tamano);
+      if (sesenta) {
+        const [id, ml] = sesenta;
+        const extra = precioKit(HUELLA) - precioDe(ml);
+        return {
+          texto: `Lleva <b>${esc(perfumeById[id].nombre)}</b> también en ${HUELLA.espacios[1].tamano} de bolsillo por solo <b>${plata(extra)}</b> más: es el kit <b>${esc(HUELLA.nombre)}</b> y ahorras <b>${plata(ahorroKit(HUELLA))}</b>.`,
+          boton: `Sí, quiero ${HUELLA.nombre}`,
+          accion: () => convertirEnKit(HUELLA, HUELLA.espacios.map(() => id)),
+        };
+      }
     }
     const chico = [...seleccion].find(([, ml]) => ml !== MAYOR);
     if (chico) {
@@ -591,7 +650,7 @@
         return `<li class="kit-line">
           <div class="thumb kit-thumb">${frascosKit(k)}</div>
           <div><span class="code">KIT</span><h5>${esc(k.nombre)}</h5>
-            <p>${kp.items.map((id) => esc(perfumeById[id].codigo)).join(" · ")}</p>
+            <p>${[...new Set(kp.items)].map((id) => esc(perfumeById[id].codigo)).join(" · ")}</p>
             <p class="line-price">${plata(precioKit(k))}${ahorroKit(k) ? ` <span class="kit-save sm">Ahorras ${plata(ahorroKit(k))}</span>` : ""}</p>
           </div>
           <button class="rm" data-rmkit="${i}" aria-label="Quitar kit"><svg class="ico"><use href="#i-trash"/></svg></button>
@@ -684,10 +743,17 @@
       .map(([t, v]) => `<dt>${t}</dt><dd>${v.split(",").map((n) => notaPill(n.trim())).join("")}</dd>`)
       .join("");
     // Kits en los que cabe este perfume
-    const kits = KITS.map((k) => ({ k, i: k.espacios.findIndex((e) => cabeEn(p, e)) })).filter((o) => o.i >= 0);
+    const kits = KITS.map((k) => ({
+      k,
+      i: k.mismoAroma ? (k.espacios.every((e) => cabeEn(p, e)) ? 0 : -1) : k.espacios.findIndex((e) => cabeEn(p, e)),
+    }))
+      .filter((o) => o.i >= 0)
+      .sort((a, b) => (b.k.mismoAroma ? 1 : 0) - (a.k.mismoAroma ? 1 : 0));
+    const detalleKit = (k, i) =>
+      k.mismoAroma ? `Este aroma en ${k.espacios.map((e) => e.tamano).join(" + ")}` : `${esc(k.espacios[i].titulo)} · ${k.espacios[i].tamano}`;
     $("#m-kits").innerHTML = kits.length
       ? `<p class="label">Úsalo en un kit y ahorra</p><div class="m-kit-list">${kits
-          .map(({ k, i }) => `<button data-kitstart="${k.id}" data-slot="${i}"><span><b>${esc(k.nombre)}</b><small>${esc(k.espacios[i].titulo)} · ${k.espacios[i].tamano}</small></span><span class="m-kit-p">${plata(precioKit(k))}${ahorroKit(k) ? `<small>Ahorras ${plata(ahorroKit(k))}</small>` : ""}</span></button>`)
+          .map(({ k, i }) => `<button class="${k.mismoAroma ? "huella" : ""}" data-kitstart="${k.id}" data-slot="${i}"><span><b>${esc(k.nombre)}</b><small>${detalleKit(k, i)}</small></span><span class="m-kit-p">${plata(precioKit(k))}${ahorroKit(k) ? `<small>-${pctKit(k)}% · ahorras ${plata(ahorroKit(k))}</small>` : ""}</span></button>`)
           .join("")}</div>`
       : "";
     pintarTallas();
@@ -733,7 +799,7 @@
     const kit = e.target.closest("[data-kitstart]");
     if (kit) {
       const k = kitById[kit.dataset.kitstart];
-      const items = k.espacios.map(() => null);
+      const items = k.espacios.map(() => (k.mismoAroma ? abiertoId : null));
       items[+kit.dataset.slot] = abiertoId;
       cerrarDetalle();
       abrirKit(k.id, items);
@@ -763,29 +829,32 @@
   }
   function pintarKit() {
     const k = kitById[kitActual.id];
-    $("#kb-slots").innerHTML = k.espacios
-      .map((e, i) => {
-        const sel = kitActual.items[i];
-        const p = sel && perfumeById[sel];
-        const grupos = ["Diseñador", "Árabe"]
-          .map((cat) => {
-            const ops = elegibles(e).filter((x) => x.categoria === cat);
-            return ops.length
-              ? `<optgroup label="${cat === "Árabe" ? "Árabes" : cat}">${ops.map((x) => `<option value="${x.id}" ${x.id === sel ? "selected" : ""}>${esc(x.codigo)} · ${esc(x.nombre)} — ${esc(x.insp)}</option>`).join("")}</optgroup>`
-              : "";
-          })
-          .join("");
-        return `<li class="kb-slot ${p ? "ok" : ""}">
-          <div class="kb-thumb">${p ? arte(p) : `<span>${i + 1}</span>`}</div>
-          <div class="kb-body">
-            <p class="kb-t"><b>${esc(e.titulo)}</b> · ${e.tamano}</p>
-            <select data-slot="${i}" aria-label="${esc(e.titulo)}"><option value="">Elige tu aroma…</option>${grupos}</select>
-            ${p ? `<p class="kb-insp">Inspirado en ${esc(p.inspiracion)}</p>` : ""}
-          </div>
-        </li>`;
-      })
-      .join("");
-    const faltan = kitActual.items.filter((x) => !x).length;
+    const opciones = (lista, sel) =>
+      ["Diseñador", "Árabe"]
+        .map((cat) => {
+          const ops = lista.filter((x) => x.categoria === cat);
+          return ops.length
+            ? `<optgroup label="${cat === "Árabe" ? "Árabes" : cat}">${ops.map((x) => `<option value="${x.id}" ${x.id === sel ? "selected" : ""}>${esc(x.codigo)} · ${esc(x.nombre)} — ${esc(x.insp)}</option>`).join("")}</optgroup>`
+            : "";
+        })
+        .join("");
+    const espacio = (num, titulo, tamano, sel, lista, slot) => {
+      const p = sel && perfumeById[sel];
+      return `<li class="kb-slot ${p ? "ok" : ""}">
+        <div class="kb-thumb">${p ? arte(p) : `<span>${num}</span>`}</div>
+        <div class="kb-body">
+          <p class="kb-t"><b>${esc(titulo)}</b> · ${tamano}</p>
+          <select data-slot="${slot}" aria-label="${esc(titulo)}"><option value="">Elige tu aroma…</option>${opciones(lista, sel)}</select>
+          ${p ? `<p class="kb-insp">Inspirado en ${esc(p.inspiracion)}</p>` : ""}
+        </div>
+      </li>`;
+    };
+    // Kit de un solo aroma: una sola elección para todos los frascos
+    $("#kb-slots").innerHTML = k.mismoAroma
+      ? espacio("1", "Tu aroma", k.espacios.map((e) => e.tamano).join(" + "), kitActual.items[0],
+          PERFUMES.filter((p) => k.espacios.every((e) => cabeEn(p, e))).sort((a, b) => a.nombre.localeCompare(b.nombre, "es")), "all")
+      : k.espacios.map((e, i) => espacio(i + 1, e.titulo, e.tamano, kitActual.items[i], elegibles(e), i)).join("");
+    const faltan = k.mismoAroma ? (kitActual.items[0] ? 0 : 1) : kitActual.items.filter((x) => !x).length;
     const vig = promoVigente();
     $("#kb-antes").textContent = vig ? plata(antesKit(k)) : "";
     $("#kb-precio").textContent = plata(precioKit(k));
@@ -819,7 +888,8 @@
   kitm.addEventListener("change", (e) => {
     const i = e.target.dataset.slot;
     if (i === undefined) return;
-    kitActual.items[+i] = e.target.value || null;
+    if (i === "all") kitActual.items = kitActual.items.map(() => e.target.value || null);
+    else kitActual.items[+i] = e.target.value || null;
     pintarKit();
   });
   $("#kb-wa").addEventListener("click", (e) => {

@@ -13,7 +13,7 @@ Todo se cambia en `js/perfumes.js`:
 - `TIENDA`: nombre, WhatsApp y correo.
 - `PROPOSITOS`: los momentos que se muestran al entrar.
 - `PRESENTACIONES` y `PRECIOS`: tamaños (30, 60 y 100 ml) y su precio.
-- `KITS`: los kits (Trío Instinto, Fera Indomable, Atracción Fera), su precio y qué perfume va en cada espacio.
+- `KITS`: la escalera de kits (Trío Instinto 10 %, Atracción Fera 15 %, Fera Indomable 20 %, Manada Fera 25 %) y Huella Fera (60 + 30 ml del mismo aroma), con su precio y qué perfume va en cada espacio.
 - `PROMO`: fecha final del precio especial de kits (vacío = se renueva cada mes) y cupos, si son limitados.
 - `ACORDES`: colores de la escala de acordes.
 - `PERFUMES`: un perfume por línea con `P(código, nombre, inspiración, género, categoría, familia, propósitos, notas, acordes, destacado)`.

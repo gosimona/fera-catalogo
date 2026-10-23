@@ -31,18 +31,25 @@ const PRECIOS = { "30 ml": 20000, "60 ml": 35000, "100 ml": 48000 };
 
 // ----------------------------------------------
 //  KITS FERA
+//  La escalera: entre más frascos, más descuento (10 %, 15 %, 20 %, 25 %).
 //  Cada "espacio" es un perfume que el cliente elige dentro del kit:
 //   - tamano: presentación de ese perfume
 //   - propositos: ids permitidos (vacío = cualquiera)
 //   - generos: géneros permitidos (vacío = cualquiera)
+//  Otras opciones del kit:
+//   - destacado: true para resaltarlo en la vitrina
+//   - mismoAroma: true si todos los frascos llevan el mismo perfume
+//   - vitrina: false para que no salga en la escalera (se ofrece aparte)
 // ----------------------------------------------
+const aroma = (n, tamano) => Array.from({ length: n }, (_, i) => ({ titulo: `Aroma ${i + 1}`, tamano }));
+
 const KITS = [
   {
     id: "trio-instinto",
     nombre: "Trío Instinto",
     frase: "Descubre tu firma.",
     descripcion: "Tres perfumes de 30 ml, uno para cada momento. Ideal para empezar o para regalar sin fallar.",
-    etiqueta: "Ideal para empezar",
+    etiqueta: "Para empezar",
     precio: 54000,
     espacios: [
       { titulo: "Día a día", tamano: "30 ml", propositos: ["diario"] },
@@ -51,27 +58,52 @@ const KITS = [
     ],
   },
   {
-    id: "fera-indomable",
-    nombre: "Fera Indomable",
-    frase: "Indomable de día, irresistible de noche.",
-    descripcion: "Tu perfume de 100 ml para el día y uno de 30 ml para la noche. Siempre listo, a cualquier hora.",
-    etiqueta: "Día y noche",
-    precio: 62000,
-    espacios: [
-      { titulo: "Tu perfume de día", tamano: "100 ml", propositos: ["diario"] },
-      { titulo: "Tu perfume de noche", tamano: "30 ml", propositos: ["seduccion", "eventos"] },
-    ],
-  },
-  {
     id: "atraccion-fera",
     nombre: "Atracción Fera",
     frase: "Dos instintos, una sola química.",
-    descripcion: "Dos perfumes de 100 ml, uno para él y otro para ella. El regalo perfecto para compartir.",
-    etiqueta: "Mayor ahorro",
-    precio: 88000,
+    descripcion: "Dos perfumes de 100 ml: uno para él y otro para ella, o dos aromas para ti.",
+    etiqueta: "Para dos",
+    precio: 82000,
     espacios: [
-      { titulo: "Para él", tamano: "100 ml", generos: ["Hombre", "Unisex"] },
-      { titulo: "Para ella", tamano: "100 ml", generos: ["Mujer", "Unisex"] },
+      { titulo: "Primer aroma", tamano: "100 ml" },
+      { titulo: "Segundo aroma", tamano: "100 ml" },
+    ],
+  },
+  {
+    id: "fera-indomable",
+    nombre: "Fera Indomable",
+    frase: "Un perfume para cada momento.",
+    descripcion: "Tres perfumes de 100 ml: tu aroma de día a día, el de seducción y el de eventos. Listo para todo.",
+    etiqueta: "El más completo",
+    destacado: true,
+    precio: 115000,
+    espacios: [
+      { titulo: "Día a día", tamano: "100 ml", propositos: ["diario"] },
+      { titulo: "Seducción", tamano: "100 ml", propositos: ["seduccion"] },
+      { titulo: "Destacar en eventos", tamano: "100 ml", propositos: ["eventos"] },
+    ],
+  },
+  {
+    id: "manada-fera",
+    nombre: "Manada Fera",
+    frase: "Juntos huelen mejor.",
+    descripcion: "Seis perfumes de 100 ml a elegir. Para la familia, los amigos, regalos de empresa o para revender.",
+    etiqueta: "Mayor ahorro",
+    precio: 216000,
+    espacios: aroma(6, "100 ml"),
+  },
+  {
+    id: "huella-fera",
+    nombre: "Huella Fera",
+    frase: "Tu aroma, en casa y en el bolso.",
+    descripcion: "Tu perfume favorito en 60 ml para casa y en 30 ml para llevar a todas partes.",
+    etiqueta: "Tu favorito x2",
+    precio: 50000,
+    mismoAroma: true,
+    vitrina: false,
+    espacios: [
+      { titulo: "Para casa", tamano: "60 ml" },
+      { titulo: "De bolsillo", tamano: "30 ml" },
     ],
   },
 ];
