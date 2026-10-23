@@ -31,7 +31,7 @@ const PRECIOS = { "30 ml": 20000, "60 ml": 35000, "100 ml": 48000 };
 
 // ----------------------------------------------
 //  KITS FERA
-//  La escalera: entre más frascos, más descuento (10 %, 15 %, 20 %, 25 %).
+//  Combos FERA: elige tus 3 favoritos; el tamaño define el descuento (10 %, 15 %, 20 %).
 //  Cada "espacio" es un perfume que el cliente elige dentro del kit:
 //   - tamano: presentación de ese perfume
 //   - propositos: ids permitidos (vacío = cualquiera)
@@ -48,63 +48,29 @@ const KITS = [
     id: "trio-instinto",
     nombre: "Trío Instinto",
     frase: "Descubre tu firma.",
-    descripcion: "Tres perfumes de 30 ml, uno para cada momento. Ideal para empezar o para regalar sin fallar.",
+    descripcion: "Tus 3 aromas favoritos en 30 ml. Ideal para empezar, probar o regalar.",
     etiqueta: "Para empezar",
     precio: 54000,
-    espacios: [
-      { titulo: "Día a día", tamano: "30 ml", propositos: ["diario"] },
-      { titulo: "Seducción", tamano: "30 ml", propositos: ["seduccion"] },
-      { titulo: "Destacar en eventos", tamano: "30 ml", propositos: ["eventos"] },
-    ],
-  },
-  {
-    id: "atraccion-fera",
-    nombre: "Atracción Fera",
-    frase: "Dos instintos, una sola química.",
-    descripcion: "Dos perfumes de 100 ml: uno para él y otro para ella, o dos aromas para ti.",
-    etiqueta: "Para dos",
-    precio: 82000,
-    espacios: [
-      { titulo: "Primer aroma", tamano: "100 ml" },
-      { titulo: "Segundo aroma", tamano: "100 ml" },
-    ],
-  },
-  {
-    id: "fera-indomable",
-    nombre: "Fera Indomable",
-    frase: "Un perfume para cada momento.",
-    descripcion: "Tres perfumes de 100 ml: tu aroma de día a día, el de seducción y el de eventos. Listo para todo.",
-    etiqueta: "El más completo",
-    destacado: true,
-    precio: 115000,
-    espacios: [
-      { titulo: "Día a día", tamano: "100 ml", propositos: ["diario"] },
-      { titulo: "Seducción", tamano: "100 ml", propositos: ["seduccion"] },
-      { titulo: "Destacar en eventos", tamano: "100 ml", propositos: ["eventos"] },
-    ],
-  },
-  {
-    id: "manada-fera",
-    nombre: "Manada Fera",
-    frase: "Juntos huelen mejor.",
-    descripcion: "Seis perfumes de 100 ml a elegir. Para la familia, los amigos, regalos de empresa o para revender.",
-    etiqueta: "Mayor ahorro",
-    precio: 216000,
-    espacios: aroma(6, "100 ml"),
+    espacios: aroma(3, "30 ml"),
   },
   {
     id: "huella-fera",
-    nombre: "Huella Fera",
-    frase: "Tu aroma, en casa y en el bolso.",
-    descripcion: "Tu perfume favorito en 60 ml para casa y en 30 ml para llevar a todas partes.",
-    etiqueta: "Tu favorito x2",
-    precio: 50000,
-    mismoAroma: true,
-    vitrina: false,
-    espacios: [
-      { titulo: "Para casa", tamano: "60 ml" },
-      { titulo: "De bolsillo", tamano: "30 ml" },
-    ],
+    nombre: "Huella FERA",
+    frase: "Deja tu huella.",
+    descripcion: "Tus 3 aromas favoritos en 60 ml. El tamaño justo para usar todos los días.",
+    etiqueta: "Tamaño ideal",
+    precio: 89000,
+    espacios: aroma(3, "60 ml"),
+  },
+  {
+    id: "fera-indomable",
+    nombre: "FERA Indomable",
+    frase: "Un perfume para cada momento.",
+    descripcion: "Tus 3 aromas favoritos en 100 ml. El mejor precio por frasco de toda la tienda.",
+    etiqueta: "Mayor ahorro",
+    destacado: true,
+    precio: 115000,
+    espacios: aroma(3, "100 ml"),
   },
 ];
 

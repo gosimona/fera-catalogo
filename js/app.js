@@ -301,18 +301,40 @@
     const vig = promoVigente();
     const items = (k) =>
       k.espacios.every((e) => /^Aroma \d/.test(e.titulo))
-        ? `<li><span>${k.espacios.length} × ${k.espacios[0].tamano}</span>A elegir del catálogo</li>`
+        ? `<li><span>${k.espacios.length} × ${k.espacios[0].tamano}</span>Elige tus ${k.espacios.length} aromas favoritos</li>`
         : k.espacios.map((e) => `<li><span>${e.tamano}</span>${esc(e.titulo)}</li>`).join("");
-    // Precio por frasco: la barra se encoge a medida que sube el kit
+    // Beneficio a la vista: barra "por separado" contra barra "en kit" y el pedazo que te ahorras
     const porFrasco = (k) => {
+      if (!vig) return "";
+      const antes = antesKit(k);
+      const ahora = precioKit(k);
+      const pct = Math.round((ahora / antes) * 100);
       const t = tamanoUnico(k);
-      if (!t || !vig) return "";
-      const unidad = precioKit(k) / k.espacios.length;
-      return `<div class="kit-unit">
-        <p><span>Cada frasco de ${t}</span><b>${plata(unidad)}</b><s>${plata(precioDe(t))}</s></p>
-        <div class="kit-unit-bar"><i style="width:${Math.round((unidad / precioDe(t)) * 100)}%"></i></div>
+      const unidad = ahora / k.espacios.length;
+      return `<div class="kit-compare">
+        <div class="kc-row"><span class="kc-l">Por separado</span><div class="kc-bar"><i class="kc-full"></i></div><span class="kc-v">${plata(antes)}</span></div>
+        <div class="kc-row"><span class="kc-l">En kit</span><div class="kc-bar"><i class="kc-kit" style="width:${pct}%"></i><i class="kc-save" style="width:${100 - pct}%"></i></div><span class="kc-v gold">${plata(ahora)}</span></div>
+        <p class="kc-save-l"><i></i>Te ahorras <b>${plata(antes - ahora)}</b></p>
+        ${t ? `<p class="kc-unit">Cada frasco de ${t}: <b>${plata(unidad)}</b> <s>${plata(precioDe(t))}</s></p>` : ""}
       </div>`;
     };
+    // Escalera: el descuento sube con el tamaño
+    $("#kit-ladder").hidden = !vig;
+    if (vig) {
+      const maxPct = Math.max(...KITS_VITRINA.map(pctKit));
+      $("#kit-ladder").innerHTML =
+        `<p class="kl-title">Sube de tamaño y <b>ahorra más</b></p><div class="kl-steps">` +
+        KITS_VITRINA.map(
+          (k, i) => `${i ? '<svg class="kl-arrow"><use href="#i-arrow"/></svg>' : ""}
+          <div class="kl-step ${k.destacado ? "on" : ""}">
+            <span class="kl-pct">-${pctKit(k)}%</span>
+            <span class="kl-bar"><i style="height:${Math.round((pctKit(k) / maxPct) * 100)}%"></i></span>
+            <span class="kl-name">${esc(k.nombre)}</span>
+            <span class="kl-size">${k.espacios.length} × ${tamanoUnico(k) || ""}</span>
+          </div>`
+        ).join("") +
+        `</div>`;
+    }
     $("#kit-grid").innerHTML = KITS_VITRINA.map((k, i) => {
       const cupos = PROMO.cupos?.[k.id];
       return `<article class="kit ${k.destacado ? "featured" : ""}" style="--step:${i}">
@@ -750,7 +772,11 @@
       .filter((o) => o.i >= 0)
       .sort((a, b) => (b.k.mismoAroma ? 1 : 0) - (a.k.mismoAroma ? 1 : 0));
     const detalleKit = (k, i) =>
-      k.mismoAroma ? `Este aroma en ${k.espacios.map((e) => e.tamano).join(" + ")}` : `${esc(k.espacios[i].titulo)} · ${k.espacios[i].tamano}`;
+      k.mismoAroma
+        ? `Este aroma en ${k.espacios.map((e) => e.tamano).join(" + ")}`
+        : /^Aroma \d/.test(k.espacios[i].titulo)
+          ? `Combo de ${k.espacios.length} × ${k.espacios[i].tamano} con este aroma`
+          : `${esc(k.espacios[i].titulo)} · ${k.espacios[i].tamano}`;
     $("#m-kits").innerHTML = kits.length
       ? `<p class="label">Úsalo en un kit y ahorra</p><div class="m-kit-list">${kits
           .map(({ k, i }) => `<button class="${k.mismoAroma ? "huella" : ""}" data-kitstart="${k.id}" data-slot="${i}"><span><b>${esc(k.nombre)}</b><small>${detalleKit(k, i)}</small></span><span class="m-kit-p">${plata(precioKit(k))}${ahorroKit(k) ? `<small>-${pctKit(k)}% · ahorras ${plata(ahorroKit(k))}</small>` : ""}</span></button>`)

@@ -413,7 +413,7 @@ html:has(body.has-promo) { scroll-padding-top: 114px; }
 .countdown-n small { margin-top: 4px; font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--dim); }
 .countdown.urgent { border-color: #C0182F; }
 .countdown.urgent b { color: #ff5a6e; }
-.kit-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 44px; align-items: stretch; }
+.kit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 28px; align-items: stretch; }
 .kits .section-text b { color: var(--gold-light); }
 .kit-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
 .kit-pct {
@@ -430,6 +430,44 @@ html:has(body.has-promo) { scroll-padding-top: 114px; }
 .kit-unit s { font-size: 11.5px; color: var(--dim); }
 .kit-unit-bar { margin-top: 8px; height: 6px; border-radius: 3px; background: rgba(255, 255, 255, .08); overflow: hidden; }
 .kit-unit-bar i { display: block; height: 100%; border-radius: 3px; background: linear-gradient(90deg, #6BD12F, var(--gold)); }
+
+/* Comparación por separado vs en kit */
+.kit-compare { margin-bottom: 16px; padding: 14px; border-radius: 12px; background: rgba(255, 255, 255, .03); border: 1px solid var(--line); display: grid; gap: 8px; }
+.kc-row { display: grid; grid-template-columns: 78px 1fr auto; align-items: center; gap: 10px; }
+.kc-l { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--dim); }
+.kc-v { font-size: 13.5px; font-weight: 600; color: var(--muted); text-decoration: line-through; text-decoration-color: rgba(255, 255, 255, .35); white-space: nowrap; }
+.kc-v.gold { color: var(--gold-light); text-decoration: none; }
+.kc-bar { display: flex; height: 12px; border-radius: 6px; overflow: hidden; background: rgba(255, 255, 255, .05); }
+.kc-full { width: 100%; background: rgba(255, 255, 255, .22); }
+.kc-kit { background: linear-gradient(90deg, #B8954F, var(--gold)); animation: grow 1s var(--ease) both; transform-origin: left; }
+.kc-save {
+  background: repeating-linear-gradient(-45deg, #2fbf5a 0 5px, #1f7a3a 5px 10px);
+  animation: pulseSave 1.8s ease-in-out infinite;
+}
+.kc-save-l { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #8BE05A; }
+.kc-save-l i { width: 14px; height: 8px; border-radius: 3px; background: repeating-linear-gradient(-45deg, #2fbf5a 0 3px, #1f7a3a 3px 6px); }
+.kc-save-l b { font-size: 15px; }
+.kc-unit { padding-top: 8px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--muted); }
+.kc-unit b { color: #fff; font-size: 14px; }
+.kc-unit s { color: var(--dim); margin-left: 4px; }
+@keyframes pulseSave { 50% { filter: brightness(1.35); } }
+
+/* Escalera de descuento */
+.kit-ladder { margin-top: 40px; padding: 22px 26px; border-radius: 18px; border: 1px solid rgba(216, 188, 138, .3); background: rgba(10, 10, 11, .5); display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+.kit-ladder[hidden] { display: none; }
+.kl-title { font-family: var(--serif); font-style: italic; font-size: 26px; line-height: 1.15; max-width: 220px; }
+.kl-title b { color: var(--gold-light); font-weight: 400; }
+.kl-steps { display: flex; align-items: flex-end; gap: 14px; flex: 1; justify-content: flex-end; }
+.kl-arrow { width: 22px; height: 22px; color: var(--gold); margin-bottom: 56px; flex: none; }
+.kl-step { display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 110px; }
+.kl-pct { font-family: var(--serif); font-weight: 600; font-size: 28px; color: var(--gold-light); line-height: 1; }
+.kl-bar { width: 54px; height: 90px; display: flex; align-items: flex-end; border-radius: 8px; background: rgba(255, 255, 255, .04); overflow: hidden; }
+.kl-bar i { width: 100%; border-radius: 8px 8px 0 0; background: linear-gradient(180deg, var(--gold-light), #B8954F); animation: rise 1s var(--ease) both; transform-origin: bottom; }
+.kl-step.on .kl-bar i { background: linear-gradient(180deg, #8BE05A, #1f7a3a); }
+.kl-step.on .kl-pct { color: #8BE05A; }
+.kl-name { font-family: var(--serif); font-style: italic; font-size: 16px; white-space: nowrap; }
+.kl-size { font-size: 11px; letter-spacing: .1em; color: var(--dim); }
+@keyframes rise { from { transform: scaleY(0); } }
 
 /* Huella Fera (fuera de la escalera) */
 .kit-extra {
@@ -525,7 +563,7 @@ html:has(body.has-promo) { scroll-padding-top: 114px; }
 }
 @media (max-width: 1080px) {
   .price-grid { grid-template-columns: repeat(2, 1fr); }
-  .kit-grid { grid-template-columns: repeat(2, 1fr); }
+  .kit-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
   .kit-extra { grid-template-columns: 140px 1fr; }
   .kit-extra-buy { grid-column: 1 / -1; flex-direction: row; justify-content: space-between; align-items: center; }
   .kit { padding: 22px; }
@@ -562,6 +600,14 @@ html:has(body.has-promo) { scroll-padding-top: 114px; }
   .countdown-n span { flex: 1; min-width: 0; }
   .kitm-box { max-height: 100vh; height: 100%; border-radius: 0; }
   .kitm-head, .kb-slots, .kitm-foot { padding-left: 16px; padding-right: 16px; }
+  .kit-ladder { padding: 18px 14px; }
+  .kl-title { max-width: none; font-size: 22px; }
+  .kl-steps { gap: 6px; justify-content: space-between; width: 100%; }
+  .kl-step { min-width: 0; flex: 1; }
+  .kl-arrow { width: 16px; height: 16px; }
+  .kl-name { font-size: 13px; white-space: normal; text-align: center; }
+  .kl-pct { font-size: 22px; }
+  .kl-bar { width: 40px; height: 70px; }
   .kb-slot { grid-template-columns: 52px 1fr; }
   .kb-thumb { width: 52px; height: 66px; }
   .m-price { font-size: 34px; }
