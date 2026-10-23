@@ -124,7 +124,16 @@ em { font-style: italic; color: var(--gold-light); }
 .prop .go { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
 .prop .go .ico { transition: transform .4s var(--ease); }
 .prop:hover .go .ico { transform: translateX(5px); }
-.prop.all { --c: rgba(255, 255, 255, .12); }
+.prop:not(.all) { min-height: 360px; }
+.prop-when { display: block; margin-bottom: 12px; font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); }
+.prop.all {
+  --c: rgba(255, 255, 255, .12); grid-column: 1 / -1; min-height: 0; padding: 22px 28px 22px 84px;
+  flex-direction: row; align-items: center; justify-content: space-between; gap: 20px;
+}
+.prop.all .prop-ico { top: 50%; translate: 0 -50%; width: 30px; height: 30px; }
+.prop.all h3 { font-size: 24px; margin-bottom: 4px; }
+.prop.all p { max-width: none; }
+.prop.all .go { margin-top: 0; white-space: nowrap; }
 
 /* Beneficios */
 .benefits { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--ink-soft); }
@@ -343,7 +352,8 @@ em { font-style: italic; color: var(--gold-light); }
 }
 @media (max-width: 860px) {
   .hero-visual { display: none; }
-  .prop-grid { grid-template-columns: repeat(2, 1fr); }
+  .prop-grid { grid-template-columns: 1fr; }
+  .prop:not(.all) { min-height: 260px; }
   .benefits { grid-template-columns: repeat(2, 1fr); }
   .benefit:nth-child(2) { border-right: 0; }
   .benefit:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
@@ -366,6 +376,8 @@ em { font-style: italic; color: var(--gold-light); }
   .see { display: none; }
   .prop-grid { grid-template-columns: 1fr; }
   .prop { min-height: 210px; padding: 22px; }
+  .prop.all { padding: 20px 20px 20px 68px; flex-direction: column; align-items: flex-start; }
+  .prop.all .prop-ico { left: 22px; }
   .prop-ico { top: 20px; left: 22px; }
   .prop-n { top: 22px; right: 22px; }
   .stats { gap: 36px; }

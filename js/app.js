@@ -161,6 +161,7 @@
       return `<button class="prop" style="--c:${p.color}66" data-prop="${p.id}">
         <svg class="prop-ico"><use href="#p-${p.id}"/></svg>
         <span class="prop-n">${String(i + 1).padStart(2, "0")} · ${n} perfumes</span>
+        <span class="prop-when">${esc(p.momento || "")}</span>
         <h3>${esc(p.nombre)}</h3>
         <p>${esc(p.descripcion)}</p>
         <span class="go">Ver perfumes <svg class="ico"><use href="#i-arrow"/></svg></span>
@@ -168,9 +169,8 @@
     }).join("") +
     `<button class="prop all" data-prop="">
       <svg class="prop-ico"><use href="#p-todo"/></svg>
-      <span class="prop-n">${PERFUMES.length} perfumes</span>
-      <h3>Ver todo el catálogo</h3>
-      <p>¿Aún no sabes? Explora todas nuestras fragancias y filtra a tu gusto.</p>
+      <span><h3>Ver todo el catálogo</h3>
+      <p>¿Aún no sabes? Explora las ${PERFUMES.length} fragancias y filtra a tu gusto.</p></span>
       <span class="go">Explorar <svg class="ico"><use href="#i-arrow"/></svg></span>
     </button>`;
 
