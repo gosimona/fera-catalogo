@@ -12,6 +12,9 @@ Todo se cambia en `js/perfumes.js`:
 
 - `TIENDA`: nombre, WhatsApp y correo.
 - `PROPOSITOS`: los momentos que se muestran al entrar.
+- `PRESENTACIONES` y `PRECIOS`: tamaños (30, 60 y 100 ml) y su precio.
+- `KITS`: los kits (Trío Instinto, Fera Indomable, Atracción Fera), su precio y qué perfume va en cada espacio.
+- `PROMO`: fecha final del precio especial de kits (vacío = se renueva cada mes) y cupos, si son limitados.
 - `ACORDES`: colores de la escala de acordes.
 - `PERFUMES`: un perfume por línea con `P(código, nombre, inspiración, género, categoría, familia, propósitos, notas, acordes, destacado)`.
   El código (F-001, F-002…) es el código interno de estantería: es fijo y los perfumes nuevos toman el siguiente número libre.

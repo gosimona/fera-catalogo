@@ -14,6 +14,14 @@
 </head>
 <body>
 
+  <!-- Barra de promoción -->
+  <a class="promo-bar" id="promo-bar" href="#kits" hidden>
+    <span class="promo-dot"></span>
+    <span class="promo-txt"><b id="promo-title"></b><span class="promo-long"> · ahorra hasta <b id="promo-max"></b></span> · termina en</span>
+    <span class="promo-count" id="promo-count"></span>
+    <span class="promo-go">Ver kits <svg class="ico"><use href="#i-arrow"/></svg></span>
+  </a>
+
   <!-- Barra superior -->
   <header class="topbar" id="topbar">
     <a href="#inicio" class="logo">
@@ -22,6 +30,8 @@
     </a>
     <nav class="topnav">
       <a href="#propositos">Propósitos</a>
+      <a href="#precios">Precios</a>
+      <a href="#kits">Kits</a>
       <a href="#catalogo">Catálogo</a>
       <a href="#contacto">Contacto</a>
     </nav>
@@ -45,7 +55,7 @@
       <div class="stats">
         <div><span class="stat-n" id="stat-total">0</span><span class="stat-l">Perfumes</span></div>
         <div><span class="stat-n" id="stat-prop">0</span><span class="stat-l">Propósitos</span></div>
-        <div><span class="stat-n">100 ml</span><span class="stat-l">Hasta</span></div>
+        <div><span class="stat-n" id="stat-desde"></span><span class="stat-l">Desde</span></div>
       </div>
     </div>
   </section>
@@ -60,10 +70,38 @@
     </div>
   </section>
 
+  <!-- Precios por tamaño -->
+  <section class="prices" id="precios">
+    <div class="wrap">
+      <p class="eyebrow">Precios claros</p>
+      <h2 class="section-title">Elige tu <em>tamaño</em></h2>
+      <p class="section-text">Mismo precio para toda la colección, de diseñador o árabe. Entre más grande, mejor precio por ml.</p>
+      <div class="price-grid" id="price-grid"></div>
+    </div>
+  </section>
+
+  <!-- Kits -->
+  <section class="kits" id="kits">
+    <div class="wrap">
+      <div class="kits-head">
+        <div>
+          <p class="eyebrow">Kits FERA</p>
+          <h2 class="section-title">Más perfume, <em>mejor precio</em></h2>
+          <p class="section-text">Arma tu kit con los aromas que quieras del catálogo y paga menos que comprándolos por separado.</p>
+        </div>
+        <div class="countdown" id="kits-countdown" hidden>
+          <p class="countdown-l" id="kits-countdown-l"></p>
+          <div class="countdown-n" id="kits-count"></div>
+        </div>
+      </div>
+      <div class="kit-grid" id="kit-grid"></div>
+    </div>
+  </section>
+
   <!-- Beneficios -->
   <section class="benefits">
     <div class="benefit"><svg class="ico-lg"><use href="#i-shield"/></svg><h4>Calidad garantizada</h4><p>Alta concentración y fijación prolongada en cada frasco.</p></div>
-    <div class="benefit"><svg class="ico-lg"><use href="#i-drop"/></svg><h4>30, 50 y 100 ml</h4><p>Elige el tamaño que más se ajuste a ti.</p></div>
+    <div class="benefit"><svg class="ico-lg"><use href="#i-drop"/></svg><h4>30, 60 y 100 ml</h4><p id="benefit-precios">Elige el tamaño que más se ajuste a ti.</p></div>
     <div class="benefit"><svg class="ico-lg"><use href="#i-truck"/></svg><h4>Envíos a todo el país</h4><p>Despachamos a toda Colombia con embalaje seguro.</p></div>
     <div class="benefit"><svg class="ico-lg"><use href="#i-head"/></svg><h4>Asesoría real</h4><p>Te ayudamos a encontrar tu fragancia ideal.</p></div>
   </section>
@@ -116,9 +154,9 @@
     <div class="wrap cta-inner">
       <p class="eyebrow">Tu aroma empieza aquí</p>
       <h2 class="section-title">¿Listo para encontrar <em>tu fragancia?</em></h2>
-      <p class="section-text">Arma tu selección, envíanosla por WhatsApp y te respondemos con precios, presentaciones y tiempos de entrega.</p>
+      <p class="section-text">Arma tu selección o tu kit, envíanosla por WhatsApp y te confirmamos disponibilidad y tiempo de entrega.</p>
       <div class="hero-actions center">
-        <a class="btn-gold" data-wa="general" target="_blank" rel="noopener"><svg class="ico"><use href="#i-wa"/></svg>Cotizar por WhatsApp</a>
+        <a class="btn-gold" data-wa="general" target="_blank" rel="noopener"><svg class="ico"><use href="#i-wa"/></svg>Pedir por WhatsApp</a>
         <a href="#propositos" class="btn-outline">Elegir por propósito</a>
       </div>
       <p class="contact-line" id="contact-line"></p>
@@ -136,19 +174,21 @@
       <span class="selbar-n" id="sel-n">0</span>
       <span><strong>Mi selección</strong><small id="sel-l"></small></span>
     </button>
-    <a class="btn-gold btn-sm" id="sel-wa" target="_blank" rel="noopener">Solicitar cotización</a>
+    <a class="btn-gold btn-sm" id="sel-wa" target="_blank" rel="noopener">Pedir</a>
   </div>
 
   <!-- Panel de selección -->
   <div class="drawer-back" id="drawer-back" hidden></div>
   <aside class="drawer" id="drawer" aria-hidden="true">
     <div class="drawer-head">
-      <div><p class="eyebrow">Mi selección</p><h3 class="drawer-title">Perfumes para cotizar</h3></div>
+      <div><p class="eyebrow">Mi selección</p><h3 class="drawer-title">Tu pedido</h3></div>
       <button class="x" id="drawer-x" aria-label="Cerrar"><svg class="ico"><use href="#i-x"/></svg></button>
     </div>
     <ul class="drawer-list" id="drawer-list"></ul>
     <div class="drawer-foot">
-      <a class="btn-gold full" id="drawer-wa" target="_blank" rel="noopener"><svg class="ico"><use href="#i-wa"/></svg>Solicitar cotización</a>
+      <div class="drawer-nudge" id="drawer-nudge" hidden></div>
+      <div class="drawer-total"><span>Total</span><strong id="drawer-total"></strong></div>
+      <a class="btn-gold full" id="drawer-wa" target="_blank" rel="noopener"><svg class="ico"><use href="#i-wa"/></svg>Pedir por WhatsApp</a>
       <button class="link" id="drawer-clear">Vaciar selección</button>
     </div>
   </aside>
@@ -165,6 +205,12 @@
         <p class="m-insp" id="m-insp"></p>
         <div class="chips" id="m-chips"></div>
 
+        <div class="m-buy">
+          <div class="m-price-row"><span class="m-price" id="m-price"></span><span class="m-ml" id="m-ml"></span></div>
+          <div class="sizes" id="m-sizes"></div>
+          <p class="hint" id="m-hint"></p>
+        </div>
+
         <p class="label">Ideal para</p>
         <div class="m-props" id="m-props"></div>
 
@@ -174,9 +220,7 @@
         <p class="label">Pirámide olfativa</p>
         <dl class="notes" id="m-notes"></dl>
 
-        <p class="label">Presentaciones disponibles</p>
-        <div class="sizes" id="m-sizes"></div>
-        <p class="hint">Escríbenos y un asesor te confirma precio y disponibilidad.</p>
+        <div class="m-kits" id="m-kits"></div>
 
         <ul class="m-benefits">
           <li><svg class="ico"><use href="#i-drop"/></svg>Alta concentración y fijación prolongada</li>
@@ -185,10 +229,36 @@
         </ul>
 
         <div class="m-actions">
-          <a class="btn-gold" id="m-wa" target="_blank" rel="noopener"><svg class="ico"><use href="#i-wa"/></svg>Pedir precio</a>
+          <a class="btn-gold" id="m-wa" target="_blank" rel="noopener"><svg class="ico"><use href="#i-wa"/></svg>Pedir por WhatsApp</a>
           <button class="btn-outline" id="m-add"><svg class="ico"><use href="#i-plus"/></svg><span>Agregar</span></button>
         </div>
         <p class="m-legal">Fragancia propia inspirada en un perfume reconocido; el nombre de la marca se usa solo como referencia olfativa.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Armador de kit -->
+  <div class="modal kitm" id="kitm" hidden role="dialog" aria-modal="true" aria-labelledby="kb-name">
+    <div class="modal-back" data-kclose></div>
+    <div class="kitm-box">
+      <button class="x modal-x" data-kclose aria-label="Cerrar"><svg class="ico"><use href="#i-x"/></svg></button>
+      <div class="kitm-head">
+        <p class="eyebrow">Arma tu kit</p>
+        <h3 class="m-name" id="kb-name"></h3>
+        <p class="kitm-frase" id="kb-frase"></p>
+        <p class="kitm-timer" id="kb-timer" hidden><svg class="ico"><use href="#i-clock"/></svg><span></span></p>
+      </div>
+      <ol class="kb-slots" id="kb-slots"></ol>
+      <div class="kitm-foot">
+        <div class="kb-sum">
+          <div><span class="kb-antes" id="kb-antes"></span><strong class="kb-precio" id="kb-precio"></strong></div>
+          <span class="kb-ahorro" id="kb-ahorro"></span>
+        </div>
+        <p class="kb-faltan" id="kb-faltan"></p>
+        <div class="m-actions">
+          <a class="btn-gold" id="kb-wa" target="_blank" rel="noopener"><svg class="ico"><use href="#i-wa"/></svg>Pedir mi kit</a>
+          <button class="btn-outline" id="kb-add"><svg class="ico"><use href="#i-plus"/></svg><span>Agregar a mi pedido</span></button>
+        </div>
       </div>
     </div>
   </div>
@@ -209,6 +279,8 @@
       <symbol id="i-drop" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.7s6 6.3 6 11.3a6 6 0 0 1-12 0c0-5 6-11.3 6-11.3z"/></symbol>
       <symbol id="i-truck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h15v13H1zM16 8h4l3 3v5h-7"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></symbol>
       <symbol id="i-head" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1v-6h3zM3 19a2 2 0 0 0 2 2h1v-6H3z"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+      <symbol id="i-gift" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></symbol>
       <!-- íconos de propósitos -->
       <symbol id="p-diario" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
       <symbol id="p-seduccion" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21.2l8.8-8.8a5.5 5.5 0 0 0 0-7.8z"/></symbol>

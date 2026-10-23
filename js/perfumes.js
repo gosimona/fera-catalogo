@@ -25,8 +25,71 @@ const PROPOSITOS = [
     descripcion: "Intensos, elegantes y con estela. El perfume que hace que te pregunten qué llevas puesto." },
 ];
 
-// Presentaciones que se ofrecen
-const PRESENTACIONES = ["30 ml", "50 ml", "100 ml"];
+// Presentaciones que se ofrecen y su precio (COP). Mismo precio para Diseñador y Árabes.
+const PRESENTACIONES = ["30 ml", "60 ml", "100 ml"];
+const PRECIOS = { "30 ml": 20000, "60 ml": 35000, "100 ml": 48000 };
+
+// ----------------------------------------------
+//  KITS FERA
+//  Cada "espacio" es un perfume que el cliente elige dentro del kit:
+//   - tamano: presentación de ese perfume
+//   - propositos: ids permitidos (vacío = cualquiera)
+//   - generos: géneros permitidos (vacío = cualquiera)
+// ----------------------------------------------
+const KITS = [
+  {
+    id: "trio-instinto",
+    nombre: "Trío Instinto",
+    frase: "Descubre tu firma.",
+    descripcion: "Tres perfumes de 30 ml, uno para cada momento. Ideal para empezar o para regalar sin fallar.",
+    etiqueta: "Ideal para empezar",
+    precio: 54000,
+    espacios: [
+      { titulo: "Día a día", tamano: "30 ml", propositos: ["diario"] },
+      { titulo: "Seducción", tamano: "30 ml", propositos: ["seduccion"] },
+      { titulo: "Destacar en eventos", tamano: "30 ml", propositos: ["eventos"] },
+    ],
+  },
+  {
+    id: "fera-indomable",
+    nombre: "Fera Indomable",
+    frase: "Indomable de día, irresistible de noche.",
+    descripcion: "Tu perfume de 100 ml para el día y uno de 30 ml para la noche. Siempre listo, a cualquier hora.",
+    etiqueta: "Día y noche",
+    precio: 62000,
+    espacios: [
+      { titulo: "Tu perfume de día", tamano: "100 ml", propositos: ["diario"] },
+      { titulo: "Tu perfume de noche", tamano: "30 ml", propositos: ["seduccion", "eventos"] },
+    ],
+  },
+  {
+    id: "atraccion-fera",
+    nombre: "Atracción Fera",
+    frase: "Dos instintos, una sola química.",
+    descripcion: "Dos perfumes de 100 ml, uno para él y otro para ella. El regalo perfecto para compartir.",
+    etiqueta: "Mayor ahorro",
+    precio: 88000,
+    espacios: [
+      { titulo: "Para él", tamano: "100 ml", generos: ["Hombre", "Unisex"] },
+      { titulo: "Para ella", tamano: "100 ml", generos: ["Mujer", "Unisex"] },
+    ],
+  },
+];
+
+// ----------------------------------------------
+//  PROMOCIÓN DE KITS (urgencia)
+//  - hasta: fecha y hora final de la promoción (hora Colombia). Déjalo en "" para que
+//    la promoción se renueve sola cada mes y termine el último día del mes a las 11:59 p. m.
+//  - cupos: si de verdad tienes un número limitado de kits, escribe cuántos quedan
+//    (por ejemplo { "trio-instinto": 12 }). Si no, déjalo vacío y no se muestra.
+//  Usa siempre fechas y cupos reales: es lo que hace creíble la urgencia.
+// ----------------------------------------------
+const PROMO = {
+  activa: true,
+  titulo: "Precio especial de kits",
+  hasta: "",
+  cupos: {},
+};
 
 // Colores de cada acorde (escala de colores de las notas). Colores vivos.
 const ACORDES = {
