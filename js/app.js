@@ -407,7 +407,7 @@
     const r = restante();
     const urgente = r.ms < 864e5;
     const corto = r.d ? `${r.d}d ${dos(r.h)}h ${dos(r.m)}m` : `${dos(r.h)}h ${dos(r.m)}m ${dos(r.s)}s`;
-    $("#promo-count").textContent = urgente ? `¡Último día! ${corto}` : corto;
+    $("#promo-count").innerHTML = urgente ? `<span class="promo-kits">Kits: </span>¡Último día! ${corto}` : corto;
     $("#promo-bar").classList.toggle("urgent", urgente);
     $$("[data-count=corto]").forEach((el) => (el.textContent = corto));
     $("#kits-count").innerHTML = [["d", "días"], ["h", "horas"], ["m", "min"], ["s", "seg"]]
@@ -472,7 +472,57 @@
     if (!e.target.closest(".dd")) $$(".dd.open").forEach((d) => d.classList.remove("open"));
   });
 
+  // ---------- Filtro rápido de la portada (comparte estado con el catálogo) ----------
+  $("#quick-props").innerHTML =
+    `<button type="button" class="pill" data-qp=""><svg><use href="#p-todo"/></svg>Todos</button>` +
+    PROPOSITOS.map((p) => `<button type="button" class="pill" data-qp="${p.id}"><svg><use href="#p-${p.id}"/></svg>${esc(p.corto)}</button>`).join("");
+
+  function pintarRapido() {
+    const lista = filtrados();
+    const n = lista.length;
+    const props = estado.filtros.proposito;
+    $$("[data-qp]").forEach((b) => b.classList.toggle("on", b.dataset.qp ? props.has(b.dataset.qp) : !props.size));
+    $("#quick-go").textContent = n ? `Ver ${n} ${n === 1 ? "perfume" : "perfumes"}` : "Sin resultados";
+    const sug = $("#quick-sug");
+    const mostrar = !!estado.q && document.activeElement === $("#hq");
+    sug.hidden = !mostrar;
+    if (mostrar)
+      sug.innerHTML = n
+        ? lista.slice(0, 5).map((p) => `<button type="button" data-qver="${p.id}"><span class="code">${esc(p.codigo)}</span><span><b>${esc(p.nombre)}</b><small>Inspirado en ${esc(p.inspiracion)}</small></span></button>`).join("")
+        : `<p>No encontramos ese perfume. Prueba con otro nombre.</p>`;
+  }
+  $("#hq").addEventListener("input", (e) => {
+    $("#q").value = e.target.value;
+    estado.q = norm(e.target.value.trim());
+    estado.limite = POR_PAGINA;
+    pintar();
+  });
+  $("#hq").addEventListener("focus", pintarRapido);
+  $("#hq").addEventListener("keydown", (e) => {
+    if (e.key === "Escape") $("#quick-sug").hidden = true;
+  });
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest("#quick")) $("#quick-sug").hidden = true;
+  });
+  $("#quick-props").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-qp]");
+    if (b) elegirProposito(b.dataset.qp, false);
+  });
+  $("#quick-sug").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-qver]");
+    if (!b) return;
+    $("#quick-sug").hidden = true;
+    abrirDetalle(b.dataset.qver);
+  });
+  $("#quick").addEventListener("submit", (e) => {
+    e.preventDefault();
+    $("#quick-sug").hidden = true;
+    $("#hq").blur();
+    $("#catalogo").scrollIntoView({ behavior: "smooth" });
+  });
+
   $("#q").addEventListener("input", (e) => {
+    $("#hq").value = e.target.value;
     estado.q = norm(e.target.value.trim());
     estado.limite = POR_PAGINA;
     pintar();
@@ -485,6 +535,7 @@
     Object.values(estado.filtros).forEach((s) => s.clear());
     estado.q = "";
     $("#q").value = "";
+    $("#hq").value = "";
     estado.limite = POR_PAGINA;
     pintar();
   };
@@ -581,6 +632,7 @@
     const url = new URL(location.href);
     props.size === 1 ? url.searchParams.set("proposito", [...props][0]) : url.searchParams.delete("proposito");
     try { history.replaceState(null, "", url); } catch (e) {}
+    pintarRapido();
   }
 
   $("#grid").addEventListener("click", (e) => {

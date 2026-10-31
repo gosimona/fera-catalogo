@@ -47,6 +47,17 @@
     <div class="wrap hero-inner">
       <p class="eyebrow" id="hero-eyebrow"></p>
       <h1 class="hero-title">El perfume que<br>habla por ti</h1>
+      <form class="quick" id="quick" role="search" autocomplete="off">
+        <div class="quick-row">
+          <label class="quick-input">
+            <svg class="ico"><use href="#i-search"/></svg>
+            <input type="search" id="hq" placeholder="Nombre, inspiración o código" aria-label="Buscar perfume por nombre" aria-controls="quick-sug">
+          </label>
+          <button class="btn-gold" type="submit" id="quick-go"></button>
+        </div>
+        <div class="quick-sug" id="quick-sug" hidden></div>
+        <div class="quick-props" id="quick-props" role="group" aria-label="Filtrar por propósito"></div>
+      </form>
       <p class="hero-text">Fragancias de autor inspiradas en los perfumes más deseados del mundo. Alta concentración, fijación prolongada y asesoría para encontrar el aroma perfecto para cada momento.</p>
       <div class="hero-actions">
         <a href="#propositos" class="btn-gold">Elegir por propósito <svg class="ico"><use href="#i-arrow"/></svg></a>
