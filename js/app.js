@@ -24,6 +24,10 @@
   const mlNum = (ml) => parseInt(ml, 10);
   const porMl = (ml) => precioDe(ml) / mlNum(ml);
   const DESDE = Math.min(...PRESENTACIONES.map(precioDe));
+  const regularDe = (ml) => PRECIOS_REGULARES[ml] || precioDe(ml);
+  const ahorroDe = (ml) => regularDe(ml) - precioDe(ml);
+  const pctDe = (ml) => Math.round((ahorroDe(ml) / regularDe(ml)) * 100);
+  const detalleDe = (ml) => DETALLE_TAMANO[ml] || "";
 
   // ---------- Promoción (urgencia real, con fecha) ----------
   function finPromo() {
@@ -88,7 +92,7 @@
     asesoria: saludo + "Quiero asesoría para elegir un perfume. ¿Me ayudan?",
   };
   const mensajePerfume = (p, ml) =>
-    `${saludo}Quiero pedir este perfume:\n\n${lineaPerfume(p)}\nTamaño: ${ml} - ${plata(precioDe(ml))}\n\n¿Está disponible?`;
+    `${saludo}Quiero pedir este perfume:\n\n${lineaPerfume(p)}\nTamaño: ${ml} (${detalleDe(ml)}) - ${plata(precioDe(ml))} precio de inauguración\n\n¿Está disponible?`;
   const textoKit = (k, items) =>
     `🎁 *Kit ${k.nombre}* - ${plata(precioKit(k))}${ahorroKit(k) ? ` (ahorro ${plata(ahorroKit(k))})` : ""}\n` +
     k.espacios.map((e, i) => `   ${i + 1}. ${e.titulo} (${e.tamano}): ${items[i] ? lineaPerfume(perfumeById[items[i]]) : "por elegir"}`).join("\n");
@@ -282,8 +286,12 @@
       const extra = prev ? `+${mlNum(ml) - mlNum(prev)} ml por solo ${plata(precioDe(ml) - precioDe(prev))} más` : "Perfecto para probar o llevar en el bolso";
       return `<div class="price ${ml === mejorMl ? "best" : ""}">
         ${ml === mejorMl ? '<span class="price-tag">Mejor precio por ml</span>' : ""}
+        <span class="price-off">${pctDe(ml)}% OFF</span>
         <span class="price-ml">${ml}</span>
+        <span class="price-info">${esc(detalleDe(ml))}</span>
+        <s class="price-reg">${plata(regularDe(ml))}</s>
         <strong class="price-n">${plata(precioDe(ml))}</strong>
+        <span class="price-save">Ahorras ${plata(ahorroDe(ml))}</span>
         <span class="price-per">${plata(porMl(ml))} por ml</span>
         <span class="price-extra">${extra}</span>
       </div>`;
@@ -587,7 +595,7 @@
         <div class="card-props" title="${esc(p.propositos.map((x) => propById[x].nombre).join(" · "))}">
           ${p.propositos.map((x) => `<svg><use href="#p-${x}"/></svg>`).join("")}
         </div>
-        <p class="card-price"><small>Desde</small> ${plata(Math.min(...p.presentaciones.map(precioDe)))}</p>
+        <p class="card-price"><small>Desde</small> ${plata(Math.min(...p.presentaciones.map(precioDe)))} <s>${plata(Math.min(...p.presentaciones.map(regularDe)))}</s></p>
         <div class="card-foot-line"></div>
         <div class="card-foot"><button class="quote" data-ver="${p.id}">Ver tamaños y pedir</button></div>
       </div>
@@ -845,10 +853,10 @@
   function pintarTallas() {
     const p = perfumeById[abiertoId];
     $("#m-sizes").innerHTML = p.presentaciones
-      .map((x) => `<button class="size ${x === mlElegido ? "on" : ""}" data-ml="${x}"><span>${x}</span><small>${plata(precioDe(x))}</small>${x === mejorMl ? '<em class="size-best">Mejor precio</em>' : ""}</button>`)
+      .map((x) => `<button class="size ${x === mlElegido ? "on" : ""}" data-ml="${x}"><span>${x}</span><s>${plata(regularDe(x))}</s><small>${plata(precioDe(x))}</small>${x === mejorMl ? '<em class="size-best">Mejor precio</em>' : ""}</button>`)
       .join("");
     $("#m-price").textContent = plata(precioDe(mlElegido));
-    $("#m-ml").textContent = `${mlElegido} · ${plata(porMl(mlElegido))} por ml`;
+    $("#m-ml").innerHTML = `<s>${plata(regularDe(mlElegido))}</s> <b>${pctDe(mlElegido)}% OFF · Ahorras ${plata(ahorroDe(mlElegido))}</b><br>${mlElegido} · ${esc(detalleDe(mlElegido))} · ${plata(porMl(mlElegido))} por ml`;
     const sig = p.presentaciones[p.presentaciones.indexOf(mlElegido) + 1];
     $("#m-hint").innerHTML = sig
       ? `<button class="upsell" data-ml="${sig}">💡 Por solo <b>${plata(precioDe(sig) - precioDe(mlElegido))}</b> más llévate <b>${sig}</b> (+${mlNum(sig) - mlNum(mlElegido)} ml)</button>`

@@ -27,7 +27,9 @@ const PROPOSITOS = [
 
 // Presentaciones que se ofrecen y su precio (COP). Mismo precio para Diseñador y Árabes.
 const PRESENTACIONES = ["30 ml", "60 ml", "100 ml"];
-const PRECIOS = { "30 ml": 20000, "60 ml": 35000, "100 ml": 48000 };
+const PRECIOS = { "30 ml": 20000, "60 ml": 35000, "100 ml": 48000 }; // precio de inauguración
+const PRECIOS_REGULARES = { "30 ml": 25000, "60 ml": 45000, "100 ml": 60000 }; // precio tachado
+const DETALLE_TAMANO = { "30 ml": "Ultra Extrait 40%", "60 ml": "Ultra Extrait 40%", "100 ml": "+ Feromonas" };
 
 // ----------------------------------------------
 //  KITS FERA

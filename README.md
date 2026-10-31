@@ -12,7 +12,7 @@ Todo se cambia en `js/perfumes.js`:
 
 - `TIENDA`: nombre, WhatsApp y correo.
 - `PROPOSITOS`: los momentos que se muestran al entrar.
-- `PRESENTACIONES` y `PRECIOS`: tamaños (30, 60 y 100 ml) y su precio.
+- `PRESENTACIONES`, `PRECIOS`, `PRECIOS_REGULARES` y `DETALLE_TAMANO`: tamaños, precio de inauguración, precio regular tachado y detalle.
 - `KITS`: Combos FERA de 3 aromas a elegir: Trío Instinto (3 × 30 ml, 10 %), Huella FERA (3 × 60 ml, 15 %) y FERA Indomable (3 × 100 ml, 20 %).
 - `PROMO`: fecha final del precio especial de kits (vacío = se renueva cada mes) y cupos, si son limitados.
 - `ACORDES`: colores de la escala de acordes.
