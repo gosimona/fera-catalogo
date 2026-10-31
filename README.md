@@ -17,7 +17,7 @@ Todo se cambia en `js/perfumes.js`:
 - `PROMO`: fecha final del precio especial de kits (vacío = se renueva cada mes) y cupos, si son limitados.
 - `ACORDES`: colores de la escala de acordes.
 - `PERFUMES`: un perfume por línea con `P(código, nombre, inspiración, género, categoría, familia, propósitos, notas, acordes, destacado)`.
-  El código (F-001, F-002…) es el código interno de estantería: es fijo y los perfumes nuevos toman el siguiente número libre.
+  El código F-ENP es la ubicación: Estante, Nivel (1 arriba) y Posición (0 a 9). Ejemplo: F-247 = estante 2, nivel 4, posición 7. Los perfumes nuevos toman el primer espacio libre de su grupo.
 
 Para poner fotos reales, guárdalas en `img/` y asígnalas al final de `js/perfumes.js`.
 
