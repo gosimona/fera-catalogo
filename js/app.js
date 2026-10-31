@@ -48,7 +48,9 @@
   const fechaFin = () => finPromo()?.toLocaleDateString("es-CO", { weekday: "long", day: "numeric", month: "long" });
 
   // ---------- Kits ----------
-  const antesKit = (k) => k.espacios.reduce((t, e) => t + precioDe(e.tamano), 0);
+  const antesKit = (k) => k.espacios.reduce((t, e) => t + regularDe(e.tamano), 0);
+  // Lo que el kit ahorra frente a comprar los mismos frascos sueltos hoy
+  const extraKit = (k) => k.espacios.reduce((t, e) => t + precioDe(e.tamano), 0) - precioKit(k);
   const precioKit = (k) => (promoVigente() ? k.precio : antesKit(k));
   const ahorroKit = (k) => antesKit(k) - precioKit(k);
   const pctKit = (k) => Math.round((ahorroKit(k) / antesKit(k)) * 100);
@@ -81,7 +83,8 @@
   };
   const totalPedido = () =>
     [...seleccion].reduce((t, [, ml]) => t + precioDe(ml), 0) + kitsPedido.reduce((t, k) => t + precioKit(kitById[k.kit]), 0);
-  const ahorroPedido = () => kitsPedido.reduce((t, k) => t + ahorroKit(kitById[k.kit]), 0);
+  const ahorroPedido = () =>
+    [...seleccion].reduce((t, [, ml]) => t + ahorroDe(ml), 0) + kitsPedido.reduce((t, k) => t + ahorroKit(kitById[k.kit]), 0);
 
   // ---------- WhatsApp ----------
   const wa = (texto) => `https://wa.me/${TIENDA.whatsapp}?text=${encodeURIComponent(texto)}`;
@@ -105,7 +108,7 @@
     const ahorro = ahorroPedido();
     return (
       saludo + "Quiero hacer este pedido:\n\n" + partes.join("\n\n") +
-      `\n\n*TOTAL: ${plata(totalPedido())}*` + (ahorro ? `\nAhorro con kits: ${plata(ahorro)}` : "") +
+      `\n\n*TOTAL: ${plata(totalPedido())}*` + (ahorro ? `\nAhorro frente al precio regular: ${plata(ahorro)}` : "") +
       "\n\n*OBSERVACIONES*\n-"
     );
   };
@@ -320,29 +323,12 @@
       const t = tamanoUnico(k);
       const unidad = ahora / k.espacios.length;
       return `<div class="kit-compare">
-        <div class="kc-row"><span class="kc-l">Por separado</span><div class="kc-bar"><i class="kc-full"></i></div><span class="kc-v">${plata(antes)}</span></div>
+        <div class="kc-row"><span class="kc-l">Precio regular</span><div class="kc-bar"><i class="kc-full"></i></div><span class="kc-v">${plata(antes)}</span></div>
         <div class="kc-row"><span class="kc-l">En kit</span><div class="kc-bar"><i class="kc-kit" style="width:${pct}%"></i><i class="kc-save" style="width:${100 - pct}%"></i></div><span class="kc-v gold">${plata(ahora)}</span></div>
         <p class="kc-save-l"><i></i>Te ahorras <b>${plata(antes - ahora)}</b></p>
-        ${t ? `<p class="kc-unit">Cada frasco de ${t}: <b>${plata(unidad)}</b> <s>${plata(precioDe(t))}</s></p>` : ""}
+        ${t ? `<p class="kc-unit">Cada frasco de ${t}: <b>${plata(unidad)}</b> <s>${plata(regularDe(t))}</s></p>` : ""}
       </div>`;
     };
-    // Escalera: el descuento sube con el tamaño
-    $("#kit-ladder").hidden = !vig;
-    if (vig) {
-      const maxPct = Math.max(...KITS_VITRINA.map(pctKit));
-      $("#kit-ladder").innerHTML =
-        `<p class="kl-title">Sube de tamaño y <b>ahorra más</b></p><div class="kl-steps">` +
-        KITS_VITRINA.map(
-          (k, i) => `${i ? '<svg class="kl-arrow"><use href="#i-arrow"/></svg>' : ""}
-          <div class="kl-step ${k.destacado ? "on" : ""}">
-            <span class="kl-pct">-${pctKit(k)}%</span>
-            <span class="kl-bar"><i style="height:${Math.round((pctKit(k) / maxPct) * 100)}%"></i></span>
-            <span class="kl-name">${esc(k.nombre)}</span>
-            <span class="kl-size">${k.espacios.length} × ${tamanoUnico(k) || ""}</span>
-          </div>`
-        ).join("") +
-        `</div>`;
-    }
     $("#kit-grid").innerHTML = KITS_VITRINA.map((k, i) => {
       const cupos = PROMO.cupos?.[k.id];
       return `<article class="kit ${k.destacado ? "featured" : ""}" style="--step:${i}">
@@ -673,7 +659,7 @@
   // Sugerencia para subir el ticket dentro del pedido
   function sugerencia() {
     if (promoVigente()) {
-      const opciones = KITS.filter((k) => !k.mismoAroma)
+      const opciones = KITS.filter((k) => !k.mismoAroma && extraKit(k) > 0)
         .map((k) => ({ k, items: encajar(k) }))
         .map((o) => ({ ...o, n: o.items.filter(Boolean).length, faltan: o.items.filter((x) => !x).length }))
         .filter((o) => o.n > 0 && o.faltan <= 1)
@@ -838,7 +824,7 @@
           ? `Combo de ${k.espacios.length} × ${k.espacios[i].tamano} con este aroma`
           : `${esc(k.espacios[i].titulo)} · ${k.espacios[i].tamano}`;
     $("#m-kits").innerHTML = kits.length
-      ? `<p class="label">Úsalo en un kit y ahorra</p><div class="m-kit-list">${kits
+      ? `<p class="label">Llévalo en un combo</p><div class="m-kit-list">${kits
           .map(({ k, i }) => `<button class="${k.mismoAroma ? "huella" : ""}" data-kitstart="${k.id}" data-slot="${i}"><span><b>${esc(k.nombre)}</b><small>${detalleKit(k, i)}</small></span><span class="m-kit-p">${plata(precioKit(k))}${ahorroKit(k) ? `<small>-${pctKit(k)}% · ahorras ${plata(ahorroKit(k))}</small>` : ""}</span></button>`)
           .join("")}</div>`
       : "";

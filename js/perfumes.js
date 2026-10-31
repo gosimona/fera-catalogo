@@ -33,7 +33,7 @@ const DETALLE_TAMANO = { "30 ml": "Ultra Extrait 40%", "60 ml": "Ultra Extrait 4
 
 // ----------------------------------------------
 //  KITS FERA
-//  Combos FERA: elige tus 3 favoritos; el tamaño define el descuento (10 %, 15 %, 20 %).
+//  Combos FERA: el ahorro se calcula sobre el precio regular (PRECIOS_REGULARES).
 //  Cada "espacio" es un perfume que el cliente elige dentro del kit:
 //   - tamano: presentación de ese perfume
 //   - propositos: ids permitidos (vacío = cualquiera)
@@ -52,27 +52,27 @@ const KITS = [
     frase: "Descubre tu firma.",
     descripcion: "Tus 3 aromas favoritos en 30 ml. Ideal para empezar, probar o regalar.",
     etiqueta: "Para empezar",
-    precio: 54000,
+    precio: 60000,
     espacios: aroma(3, "30 ml"),
   },
   {
-    id: "huella-fera",
-    nombre: "Huella FERA",
-    frase: "Deja tu huella.",
+    id: "atraccion-fera",
+    nombre: "Atracción Fera",
+    frase: "Tres aromas que atraen.",
     descripcion: "Tus 3 aromas favoritos en 60 ml. El tamaño justo para usar todos los días.",
-    etiqueta: "Tamaño ideal",
-    precio: 89000,
+    etiqueta: "Mayor ahorro",
+    precio: 105000,
     espacios: aroma(3, "60 ml"),
   },
   {
     id: "fera-indomable",
-    nombre: "FERA Indomable",
-    frase: "Un perfume para cada momento.",
-    descripcion: "Tus 3 aromas favoritos en 100 ml. El mejor precio por frasco de toda la tienda.",
-    etiqueta: "Mayor ahorro",
+    nombre: "Fera Indomable",
+    frase: "Indomable de día, irresistible de noche.",
+    descripcion: "Tus 2 aromas favoritos en 100 ml con feromonas. El mejor precio por ml de la tienda.",
+    etiqueta: "Con feromonas",
     destacado: true,
-    precio: 115000,
-    espacios: aroma(3, "100 ml"),
+    precio: 96000,
+    espacios: aroma(2, "100 ml"),
   },
 ];
 
