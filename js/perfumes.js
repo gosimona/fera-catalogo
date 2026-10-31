@@ -426,6 +426,9 @@ const PERFUMES = [
   P("F-251", "Chicle Rosa", "Toy 2 Bubble Gum – Moschino", "Mujer", "Diseñador", "Floral Frutal Gourmand", "diario",
     "Mandarina, limón, jengibre | Chicle, rosa, durazno | Almizcle, vainilla",
     "Dulce 100, Frutal 85, Floral 60, Cítrico 50, Almizclado 40"),
+  P("F-252", "Explosiva", "La Bomba – Carolina Herrera", "Mujer", "Diseñador", "Floral Frutal", "seduccion eventos",
+    "Pitahaya | Peonía de cereza, frangipani rojo | Vainilla solar",
+    "Tropical 100, Floral 80, Vainilla 70, Frutal 55, Dulce 40"),
 
   // ===== ESTANTE 3 · ÁRABES HOMBRE · Nivel 1 =====
   P("F-310", "Medianoche", "9PM Night Out – Afnan", "Hombre", "Árabe", "Ámbar Amaderada", "seduccion eventos",
@@ -504,6 +507,12 @@ const PERFUMES = [
   P("F-337", "Tabaco Real", "Tobacco Vanille – Tom Ford", "Unisex", "Diseñador", "Oriental Especiada", "seduccion eventos",
     "Hoja de tabaco, especias | Vainilla, cacao, haba tonka | Ciruela seca, maderas",
     "Tabaco 100, Vainilla 90, Especiado 65, Dulce 55, Amaderado 40"),
+  P("F-338", "Calle Bohemia", "Bleecker Street – Bond No. 9", "Unisex", "Diseñador", "Amaderada Frutal", "diario eventos",
+    "Hoja de violeta, grosella negra, tomillo | Jazmín, cedro, canela | Musgo de roble, gamuza, pachulí, ámbar, vainilla",
+    "Verde 100, Frutal 75, Amaderado 70, Cuero 50, Vainilla 40"),
+  P("F-339", "Flor del Oasis", "Ajwad – Lattafa", "Unisex", "Árabe", "Floral Frutal", "diario seduccion",
+    "Bergamota, lichi, frutas | Jazmín, rosa, canela | Ámbar, cedro, almizcle, vainilla",
+    "Frutal 100, Floral 85, Rosa 65, Vainilla 50, Ámbar 45"),
 
   // ===== ESTANTE 3 · ÁRABES MUJER · Nivel 4 =====
   P("F-340", "Rubí de Oriente", "Amber Rouge – Orientica", "Mujer", "Árabe", "Ámbar Floral", "seduccion eventos",
