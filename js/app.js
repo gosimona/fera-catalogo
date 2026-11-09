@@ -170,8 +170,28 @@
   };
 
   let artN = 0;
+  // Foto del perfume: se busca sola en img/<código>.webp (o la ruta de p.imagen).
+  // Si no existe, se reemplaza por el frasco ilustrado y no se vuelve a pedir.
+  const sinFoto = new Set();
+  document.addEventListener(
+    "error",
+    (e) => {
+      const img = e.target;
+      if (!(img instanceof HTMLImageElement) || !img.dataset.fb) return;
+      const p = perfumeById[img.dataset.fb];
+      sinFoto.add(p.id);
+      const enModal = img.closest("#m-img");
+      img.outerHTML = arte(p);
+      if (enModal) $("#m-img svg")?.setAttribute("preserveAspectRatio", "xMidYMid meet");
+    },
+    true
+  );
   function arte(p) {
-    if (p.imagen) return `<img src="${esc(p.imagen)}" alt="${esc(p.nombre)}" loading="lazy">`;
+    if (!sinFoto.has(p.id))
+      return `<img class="art foto" src="${esc(p.imagen || `img/${p.codigo}.webp`)}" alt="${esc(p.nombre)}" loading="lazy" data-fb="${p.id}">`;
+    return arteDibujo(p);
+  }
+  function arteDibujo(p) {
     const k = "a" + artN++;
     const c = p.color || colorAcorde(p.acordes[0][0]);
     const insp = p.insp.toUpperCase();
