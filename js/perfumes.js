@@ -481,6 +481,10 @@ const PERFUMES = [
   P("F-325", "Vikingo Negro", "Viking Negra", "Hombre", "Árabe", "Aromática Especiada", "eventos seduccion",
     "Bergamota, limón, pimienta rosa | Menta, rosa, geranio | Sándalo, vetiver, pachulí",
     "Especiado 100, Fresco 75, Amaderado 70, Rosa 45, Terroso 40"),
+  P("F-326", "Volcán de Fuego", "Vulcan Feu – French Avenue", "Unisex", "Árabe", "Frutal Amaderada", "eventos seduccion",
+    "Mango, jengibre, limón, frutos rojos | Cumarina, jazmín, cedro | Almizcle, ámbar, oud, cipriol",
+    "Tropical 100, Especiado 70, Amaderado 65, Oud 55, Ámbar 45"),
+
 
   // ===== ESTANTE 3 · UNISEX · Nivel 3 =====
   P("F-330", "Arte del Universo", "Art of Universe – Lattafa", "Unisex", "Árabe", "Frutal Tropical", "diario seduccion",
