@@ -290,6 +290,12 @@ const PERFUMES = [
   P("F-154", "Ultra Noche", "Ultra Male – Jean Paul Gaultier", "Hombre", "Diseñador", "Oriental Fougère", "seduccion eventos",
     "Pera, lavanda, menta, bergamota | Canela, salvia, alcaravea | Vainilla negra, ámbar, pachulí",
     "Dulce 100, Frutal 80, Vainilla 75, Lavanda 55, Ámbar 45"),
+  P("F-155", "Estrella del Norte", "Althaïr – Parfums de Marly", "Hombre", "Diseñador", "Ámbar Avainillada", "seduccion eventos",
+    "Flor de azahar, bergamota, canela, cardamomo | Vainilla bourbon, elemí | Guayaco, ambroxán, praliné, almizcle",
+    "Vainilla 100, Especiado 70, Ámbar 60, Amaderado 55, Dulce 50"),
+  P("F-156", "Horizonte", "Y – Yves Saint Laurent", "Hombre", "Diseñador", "Aromática Fougère", "diario eventos",
+    "Manzana, jengibre, bergamota | Salvia, bayas de enebro, geranio | Amberwood, haba tonka, cedro, vetiver, incienso",
+    "Fresco 100, Aromático 80, Frutal 60, Amaderado 55, Ámbar 45"),
 
   // ===== ESTANTE 2 · MUJER (Diseñador) · Nivel 1 =====
   P("F-210", "Champaña Rosa", "212 VIP Rosé – Carolina Herrera", "Mujer", "Diseñador", "Floral Frutal", "eventos",
@@ -429,6 +435,9 @@ const PERFUMES = [
   P("F-252", "Explosiva", "La Bomba – Carolina Herrera", "Mujer", "Diseñador", "Floral Frutal", "seduccion eventos",
     "Pitahaya | Peonía de cereza, frangipani rojo | Vainilla solar",
     "Tropical 100, Floral 80, Vainilla 70, Frutal 55, Dulce 40"),
+  P("F-253", "Señorita Rosa", "Miss Dior – Dior", "Mujer", "Diseñador", "Chipre Floral", "diario eventos",
+    "Lirio de los valles, peonía, iris | Rosa centifolia, rosa de Damasco | Vainilla, almizcle, haba tonka",
+    "Rosa 100, Floral 85, Atalcado 55, Vainilla 45, Almizclado 40"),
 
   // ===== ESTANTE 3 · ÁRABES HOMBRE · Nivel 1 =====
   P("F-310", "Medianoche", "9PM Night Out – Afnan", "Hombre", "Árabe", "Ámbar Amaderada", "seduccion eventos",
@@ -484,7 +493,9 @@ const PERFUMES = [
   P("F-326", "Volcán de Fuego", "Vulcan Feu – French Avenue", "Unisex", "Árabe", "Frutal Amaderada", "eventos seduccion",
     "Mango, jengibre, limón, frutos rojos | Cumarina, jazmín, cedro | Almizcle, ámbar, oud, cipriol",
     "Tropical 100, Especiado 70, Amaderado 65, Oud 55, Ámbar 45"),
-
+  P("F-327", "Hielo del Golfo", "Hawas Ice – Rasasi", "Hombre", "Árabe", "Acuática Frutal", "diario",
+    "Manzana helada, bergamota, limón, anís estrellado | Flor de azahar, ciruela, cardamomo | Musgo, madera flotante, ámbar, almizcle",
+    "Fresco 100, Frutal 85, Acuático 65, Especiado 45, Almizclado 40"),
 
   // ===== ESTANTE 3 · UNISEX · Nivel 3 =====
   P("F-330", "Arte del Universo", "Art of Universe – Lattafa", "Unisex", "Árabe", "Frutal Tropical", "diario seduccion",
@@ -557,6 +568,9 @@ const PERFUMES = [
   P("F-351", "Delicia", "Yum Yum – Armaf", "Mujer", "Árabe", "Frutal Gourmand", "diario",
     "Fresa, cereza, maracuyá | Algodón de azúcar, caramelo | Vainilla, almizcle",
     "Dulce 100, Frutal 90, Vainilla 60, Almizclado 40, Floral 30"),
+  P("F-352", "Cereza Prohibida", "Mayar Cherry Intense – Lattafa", "Mujer", "Árabe", "Frutal Gourmand", "seduccion diario",
+    "Fresa, bergamota | Mermelada de cereza, cacao | Vainilla, pachulí, ámbar",
+    "Frutal 100, Dulce 85, Vainilla 65, Café 45, Ámbar 40"),
 ];
 
 // Fotos reales (opcional): descomenta y cambia la ruta cuando tengas la foto en la carpeta img/
